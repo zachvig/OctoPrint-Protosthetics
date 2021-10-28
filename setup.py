@@ -33,7 +33,7 @@ plugin_url = "https://github.com/aburtonProto/OctoPrint-Helloworld"
 plugin_license = "AGPLv3"
 
 # Any additional requirements besides OctoPrint should be listed here
-plugin_requires = ["python3-gpiozero"]
+plugin_requires = ["gpiozero>=1.5"]
 
 ### --------------------------------------------------------------------------------------------------------------------
 ### More advanced options that you usually shouldn't have to touch follow after this point
