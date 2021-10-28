@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-#from gpiozero import Button
+from gpiozero import Button
 
 import octoprint.plugin
 
