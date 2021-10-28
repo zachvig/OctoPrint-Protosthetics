@@ -12,7 +12,8 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
     return dict(words="Is it Christmas?")
 
   def get_template_vars(self):
-    return dict(words=self._settings.get(["words"]))
+    return dict(words=self._settings.get(["words"]),
+	            test="hello there")
 
   def get_template_configs(self):
     return [
