@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-from gpiozero import Button
+#from gpiozero import Button
 
 import octoprint.plugin
 
@@ -9,7 +9,7 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
 					   
   def __init__(self):
     self.test = 42
-	self.button = Button(5)
+#	self.button = Button(5)
 	
   def on_after_startup(self):
     self._logger.info("hello world!!!")
@@ -19,7 +19,7 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
 
   def get_template_vars(self):
     return dict(words=self._settings.get(["words"]),
-	            test=self.button.is_pressed)
+	            test=self.test)
 
   def get_template_configs(self):
     return [
