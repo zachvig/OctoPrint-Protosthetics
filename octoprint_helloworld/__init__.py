@@ -5,6 +5,10 @@ import octoprint.plugin
 class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
                        octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.SettingsPlugin):
+					   
+  def __init__(self):
+    self.test = 42
+	
   def on_after_startup(self):
     self._logger.info("hello world!!!")
 
@@ -13,7 +17,7 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
 
   def get_template_vars(self):
     return dict(words=self._settings.get(["words"]),
-	            test="hello there")
+	            test=self.test)
 
   def get_template_configs(self):
     return [
