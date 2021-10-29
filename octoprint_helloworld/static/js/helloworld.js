@@ -8,7 +8,7 @@ $(function() {
     function HelloworldViewModel(parameters) {
         var self = this;
 
-		self.moreWords = "something";
+		self.moreWords = ko.observable("something");
         // assign the injected parameters, e.g.:
         // self.loginStateViewModel = parameters[0];
         // self.settingsViewModel = parameters[1];
