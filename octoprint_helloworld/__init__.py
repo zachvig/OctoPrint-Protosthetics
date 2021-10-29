@@ -10,9 +10,9 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
   def __init__(self):
     self.test = 42
     self.button = Button(5)
-	self.led = LED(22)
-	self.button.when_pressed = self.buttonPress
-	self.button.when_released = self.led.on
+    self.led = LED(22)
+    self.button.when_pressed = self.buttonPress
+    self.button.when_released = self.led.on
 	
   def on_after_startup(self):
     self._logger.info("hello world!!!")
@@ -32,11 +32,11 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
 	
   def buttonPress(self):
     self.led.off()
-	self._plugin_manager.send_plugin_message(self._identifier, 'PRESS!!')
+    self._plugin_manager.send_plugin_message(self._identifier, 'PRESS!!')
 	
   def buttonRelease(self):
     self.led.on()
-	self._plugin_manager.send_plugin_message(self._identifier, 'RELEASE')
+    self._plugin_manager.send_plugin_message(self._identifier, 'RELEASE')
 	
 
 __plugin_name__ = "Hey there"
