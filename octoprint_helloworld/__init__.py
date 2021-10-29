@@ -26,8 +26,8 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
 
   def get_template_configs(self):
     return [
-      dict(type="navbar", custom_bindings=True),
-      dict(type="settings", custom_bindings=True)
+      dict(type="navbar", custom_bindings=False),
+      dict(type="settings", custom_bindings=False)
     ]
 
   def buttonPress(self):

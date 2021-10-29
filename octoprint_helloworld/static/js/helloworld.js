@@ -38,6 +38,6 @@ $(function() {
         dependencies: [ "settingsViewModel"  ],
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
         // Elements to bind to, e.g. #settings_plugin_helloworld, #tab_plugin_helloworld, ...
-        elements: [ /* ... */ ]
+        elements: [ "#navbar_plugin_helloworld", "#settings_plugin_helloworld" ]
     });
 });
