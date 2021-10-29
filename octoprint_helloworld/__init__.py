@@ -19,7 +19,7 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
 
   def get_template_vars(self):
     return dict(words=self._settings.get(["words"]),
-	            test=self.test)
+	            test=self.button.is_pressed)
 
   def get_template_configs(self):
     return [
