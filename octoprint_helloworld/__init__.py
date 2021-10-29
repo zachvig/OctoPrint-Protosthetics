@@ -3,8 +3,8 @@ from gpiozero import Button, LED
 
 import octoprint.plugin
 
-class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
-                       octoprint.plugin.TemplatePlugin,
+class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
+                       #octoprint.plugin.StartupPlugin,
                        octoprint.plugin.SettingsPlugin):
 					   
   def __init__(self):
@@ -14,8 +14,8 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
     self.button.when_pressed = self.buttonPress
     self.button.when_released = self.led.on
 	
-  def on_after_startup(self):
-    self._logger.info("hello world!!!")
+#  def on_after_startup(self):
+#    self._logger.info("hello world!!!")
 
   def get_settings_defaults(self):
     return dict(words="Is it Christmas?")
@@ -33,6 +33,7 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
   def buttonPress(self):
     self.led.off()
     self._plugin_manager.send_plugin_message(self._identifier, 'PRESS!!')
+    self.on_settings_save(dict(test="wow!"))
 	
   def buttonRelease(self):
     self.led.on()
