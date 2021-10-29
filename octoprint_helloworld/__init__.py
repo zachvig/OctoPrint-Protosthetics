@@ -9,7 +9,7 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
 					   
   def __init__(self):
     self.test = 42
-	self.button = Button(5)
+    self.button = Button(5)
 	
   def on_after_startup(self):
     self._logger.info("hello world!!!")
