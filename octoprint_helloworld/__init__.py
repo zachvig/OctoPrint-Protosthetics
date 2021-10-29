@@ -29,7 +29,7 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
       dict(type="navbar", custom_bindings=False),
       dict(type="settings", custom_bindings=False)
     ]
-	
+
   def buttonPress(self):
     self.led.off()
     self._plugin_manager.send_plugin_message(self._identifier, 'PRESS!!')
