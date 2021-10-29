@@ -8,11 +8,24 @@ $(function() {
     function HelloworldViewModel(parameters) {
         var self = this;
 
+		self.moreWords = "something";
         // assign the injected parameters, e.g.:
         // self.loginStateViewModel = parameters[0];
         // self.settingsViewModel = parameters[1];
 
         // TODO: Implement your plugin's view model here.
+		self.onDataUpdaterPluginMessage = function(plugin, data) {
+			if (plugin != "helloworld") {
+				return;
+			}
+			
+			if (data == "PRESS!!") {
+				self.moreWords = "press";
+			}
+			if (data == "RELEASE") {
+				self.moreWords = "release";
+			}
+		}
     }
 
     /* view model class, parameters for constructor, container to bind to

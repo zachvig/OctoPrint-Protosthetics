@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-from gpiozero import Button
+from gpiozero import Button, LED
 
 import octoprint.plugin
 
@@ -10,6 +10,9 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
   def __init__(self):
     self.test = 42
     self.button = Button(5)
+	self.led = LED(22)
+	self.button.when_pressed = self.buttonPress
+	self.button.when_released = self.led.on
 	
   def on_after_startup(self):
     self._logger.info("hello world!!!")
@@ -26,6 +29,15 @@ class HelloWorldPlugin(octoprint.plugin.StartupPlugin,
       dict(type="navbar", custom_bindings=False),
       dict(type="settings", custom_bindings=False)
     ]
+	
+  def buttonPress(self):
+    self.led.off()
+	self._plugin_manager.send_plugin_message(self._identifier, 'PRESS!!')
+	
+  def buttonRelease(self):
+    self.led.on()
+	self._plugin_manager.send_plugin_message(self._identifier, 'RELEASE')
+	
 
 __plugin_name__ = "Hey there"
 __plugin_pythoncompat__ = ">=3,<4"
