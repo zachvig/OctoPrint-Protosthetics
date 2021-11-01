@@ -4,6 +4,7 @@
  * Author: Aaron Burton
  * License: AGPLv3
  */
+ console.log('the file loaded at least');
 $(function() {
     function HelloworldViewModel(parameters) {
         var self = this;
