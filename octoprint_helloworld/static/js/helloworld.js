@@ -29,11 +29,12 @@ $(function() {
 				self.moreWords("release");
 			}
 		}
+		self.coolJSfunction = function() {
+		console.log("Cool button was clicked");
+		}
     }
 	
-	function coolJSfunction() {
-		console.log("Cool button was clicked");
-	}
+	
 
     /* view model class, parameters for constructor, container to bind to
      * Please see http://docs.octoprint.org/en/master/plugins/viewmodels.html#registering-custom-viewmodels for more details
