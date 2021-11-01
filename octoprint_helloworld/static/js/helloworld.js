@@ -4,13 +4,12 @@
  * Author: Aaron Burton
  * License: AGPLv3
  */
- console.log('the file loaded at least');
 $(function() {
     function HelloworldViewModel(parameters) {
         var self = this;
 		console.log("this much is working");
         self.settingsViewModel = parameters[0];
-		console.log(self.settingsViewModel.settings);
+		console.log(self.settingsViewModel);
 		
 		self.moreWords = ko.observable("something");
 		self.words = ko.observable("nothing");
