@@ -10,10 +10,11 @@ $(function() {
         var self = this;
 		console.log("this much is working");
         self.settingsViewModel = parameters[0];
-		console.log(self.settingsViewModel.settings.plugins);
+		console.log(self.settingsViewModel.settings);
 		
 		self.moreWords = ko.observable("something");
 		self.words = ko.observable("nothing");
+		self.settings = ko.observable("Is it Christmas??");
 		//self.words(settingsViewModel[settings])
 
         // TODO: Implement your plugin's view model here.
@@ -41,6 +42,6 @@ $(function() {
         dependencies: [ "settingsViewModel"  ],
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
         // Elements to bind to, e.g. #settings_plugin_helloworld, #tab_plugin_helloworld, ...
-        elements: [ "#navbar_plugin_helloworld" ]//, "#settings_plugin_helloworld" ]
+        elements: [ "#navbar_plugin_helloworld" , "#settings_plugin_helloworld" ]
     });
 });

@@ -28,7 +28,7 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
   def get_template_configs(self):
     return [
       dict(type="navbar"),
-      dict(type="settings")
+      dict(type="settings", custom_bindings=True)
     ]
   
   def get_assets(self):
