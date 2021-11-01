@@ -10,11 +10,11 @@ $(function() {
         var self = this;
 		console.log("this much is working");
         self.settingsViewModel = parameters[0];
-		console.log(self.settingsViewModel[settings]);
+		console.log(self.settingsViewModel);
 		
 		self.moreWords = ko.observable("something");
 		self.words = ko.observable("nothing");
-		self.words(settingsViewModel[settings])
+		//self.words(settingsViewModel[settings])
 
         // TODO: Implement your plugin's view model here.
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
