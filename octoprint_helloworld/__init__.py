@@ -4,6 +4,7 @@ from gpiozero import Button, LED
 import octoprint.plugin
 
 class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
+                       octoprint.plugin.AssetPlugin,
                        #octoprint.plugin.StartupPlugin,
                        octoprint.plugin.SettingsPlugin):
 					   
@@ -29,6 +30,11 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
       dict(type="navbar", custom_bindings=False, data_bind=self.test),
       dict(type="settings", custom_bindings=False)
     ]
+  
+  def get_assets(self):
+    return {
+      "js": ["js/helloworld.js"]
+    }
 
   def buttonPress(self):
     self.led.off()
