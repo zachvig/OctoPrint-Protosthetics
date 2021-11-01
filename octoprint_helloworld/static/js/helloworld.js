@@ -10,10 +10,10 @@ $(function() {
         var self = this;
 		console.log("this much is working");
         self.settingsViewModel = parameters[0];
-		console.log(self.settingsViewModel);
+		console.log(self.settingsViewModel.settings);
 		
 		self.moreWords = ko.observable("something");
-		self.words = ko.observable(self.settingsViewModel.settings.plugins.helloworld.words);
+		self.words = ko.observable("nothing");
 
 
         // TODO: Implement your plugin's view model here.
