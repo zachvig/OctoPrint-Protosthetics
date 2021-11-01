@@ -11,9 +11,8 @@ $(function() {
 		console.log("this much is working");
 
 		self.moreWords = ko.observable("something");
-        // assign the injected parameters, e.g.:
-        // self.loginStateViewModel = parameters[0];
-        // self.settingsViewModel = parameters[1];
+        self.settingsViewModel = parameters[0];
+		console.log(self.settingsViewModel);
 
         // TODO: Implement your plugin's view model here.
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
