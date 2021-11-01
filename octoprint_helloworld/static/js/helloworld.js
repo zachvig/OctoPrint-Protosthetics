@@ -22,11 +22,11 @@ $(function() {
 			}
 			console.log("a message from helloworld");
 			if (data == "PRESS!!") {
-				self.moreWords = "press";
+				self.moreWords("press");
 				console.log("thing happened");
 			}
 			if (data == "RELEASE") {
-				self.moreWords = "release";
+				self.moreWords("release");
 			}
 		}
     }

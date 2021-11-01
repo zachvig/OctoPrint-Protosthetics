@@ -13,7 +13,7 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
     self.button = Button(5)
     self.led = LED(22)
     self.button.when_pressed = self.buttonPress
-    self.button.when_released = self.led.on
+    self.button.when_released = self.buttonRelease
 	
   def on_after_startup(self):
     self._logger.info("hello world!!!")
