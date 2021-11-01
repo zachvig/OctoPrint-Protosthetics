@@ -7,6 +7,7 @@
 $(function() {
     function HelloworldViewModel(parameters) {
         var self = this;
+		console.log("this much is working");
 
 		self.moreWords = ko.observable("something");
         // assign the injected parameters, e.g.:
@@ -18,7 +19,7 @@ $(function() {
 			if (plugin != "helloworld") {
 				return;
 			}
-			
+			console.log("a message from helloworld");
 			if (data == "PRESS!!") {
 				self.moreWords = "press";
 				console.log("thing happened");
