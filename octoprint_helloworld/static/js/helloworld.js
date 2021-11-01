@@ -8,12 +8,11 @@ $(function() {
     function HelloworldViewModel(parameters) {
         var self = this;
 		console.log("this much is working");
-        self.settingsViewModel = parameters[0];
-		console.log(self.settingsViewModel);
+        //self.settingsViewModel = parameters[0];
+		//console.log(self.settingsViewModel);
 		
 		self.moreWords = ko.observable("something");
 		self.words = ko.observable("nothing");
-		self.settings = ko.observable("Is it Christmas??");
 		//self.words(settingsViewModel[settings])
 
         // TODO: Implement your plugin's view model here.
@@ -31,6 +30,10 @@ $(function() {
 			}
 		}
     }
+	
+	function coolJSfunction() {
+		console.log("Cool button was clicked");
+	}
 
     /* view model class, parameters for constructor, container to bind to
      * Please see http://docs.octoprint.org/en/master/plugins/viewmodels.html#registering-custom-viewmodels for more details
@@ -38,7 +41,7 @@ $(function() {
      */
     OCTOPRINT_VIEWMODELS.push({
         construct: HelloworldViewModel,
-        dependencies: [ "settingsViewModel"  ],
+        dependencies: [ ], // "settingsViewModel"  ],
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
         // Elements to bind to, e.g. #settings_plugin_helloworld, #tab_plugin_helloworld, ...
         elements: [ "#navbar_plugin_helloworld" , "#settings_plugin_helloworld" ]
