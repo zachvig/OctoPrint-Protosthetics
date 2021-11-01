@@ -12,7 +12,7 @@ $(function() {
 		//console.log(self.settingsViewModel);
 		
 		self.moreWords = ko.observable("something");
-		self.words = ko.observable("nothing");
+		self.words = ko.observable("Is it Christmas?");
 		//self.words(settingsViewModel[settings])
 
         // TODO: Implement your plugin's view model here.
