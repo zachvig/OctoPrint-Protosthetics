@@ -10,7 +10,7 @@ $(function() {
         var self = this;
 		console.log("this much is working");
         self.settingsViewModel = parameters[0];
-		console.log(self.settingsViewModel);
+		console.log(self.settingsViewModel.settings.plugins);
 		
 		self.moreWords = ko.observable("something");
 		self.words = ko.observable("nothing");
