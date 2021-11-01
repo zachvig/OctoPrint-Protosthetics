@@ -31,7 +31,7 @@ $(function() {
 		}
 		self.coolJSfunction = function() {
 		  console.log("Cool button was clicked");
-		  OctoPrint.simpleApiCommand("helloworld", "test", 1);
+		  OctoPrint.simpleApiGet("helloworld");
 		}
     }
 	

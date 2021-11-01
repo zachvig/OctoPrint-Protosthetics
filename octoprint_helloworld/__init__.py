@@ -48,10 +48,11 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
     self.led.on()
     self._plugin_manager.send_plugin_message(self._identifier, 'RELEASE')
     
-  def on_api_command(self, command, data):
-    if command == 'test':
+  def on_api_get(self, request):
+    if True:
         self.led.toggle()
         self._logger.info('GUI button pressed')
+        self._logger.info(request)
 	
 
 __plugin_name__ = "Hey there"
