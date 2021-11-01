@@ -36,14 +36,14 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
       "js": ["js/helloworld.js"]
     }
 
-  def buttonPress(self):
+  def buttonRelease(self):
     self.led.off()
     self._plugin_manager.send_plugin_message(self._identifier, 'PRESS!!')
     self.on_settings_save(dict(test="wow!"))
     self._logger.info("pressed")
     self.test += 1
 	
-  def buttonRelease(self):
+  def buttonPress(self):
     self.led.on()
     self._plugin_manager.send_plugin_message(self._identifier, 'RELEASE')
 	
