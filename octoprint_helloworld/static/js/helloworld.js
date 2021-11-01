@@ -9,10 +9,12 @@ $(function() {
     function HelloworldViewModel(parameters) {
         var self = this;
 		console.log("this much is working");
-
-		self.moreWords = ko.observable("something");
         self.settingsViewModel = parameters[0];
 		console.log(self.settingsViewModel);
+		
+		self.moreWords = ko.observable("something");
+		self.words = ko.observable(self.settingsViewModel.settings.plugins.helloworld.words);
+
 
         // TODO: Implement your plugin's view model here.
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
