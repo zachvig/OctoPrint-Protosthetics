@@ -6,7 +6,8 @@ import octoprint.plugin
 class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
                        octoprint.plugin.StartupPlugin,
-                       octoprint.plugin.SettingsPlugin):
+                       octoprint.plugin.SettingsPlugin,
+                       octoprint.plugin.SimpleApiPlugin):
 					   
   def __init__(self):
     self.test = 42
@@ -46,6 +47,11 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
   def buttonPress(self):
     self.led.on()
     self._plugin_manager.send_plugin_message(self._identifier, 'RELEASE')
+    
+  def on_api_command(self, command, data):
+    if command == 'test':
+        self.led.toggle()
+        self._logger.info('GUI button pressed')
 	
 
 __plugin_name__ = "Hey there"
