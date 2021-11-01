@@ -26,7 +26,7 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
 
   def get_template_configs(self):
     return [
-      dict(type="navbar", custom_bindings=True),
+      dict(type="navbar", custom_bindings=False, data_bind=self.test),
       dict(type="settings", custom_bindings=False)
     ]
 
@@ -35,6 +35,7 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
     self._plugin_manager.send_plugin_message(self._identifier, 'PRESS!!')
     self.on_settings_save(dict(test="wow!"))
     self._logger.info("pressed")
+    self.test += 1
 	
   def buttonRelease(self):
     self.led.on()
