@@ -5,20 +5,20 @@ import octoprint.plugin
 
 class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
-                       octoprint.plugin.StartupPlugin,
+                       #octoprint.plugin.StartupPlugin,
                        octoprint.plugin.SettingsPlugin,
                        octoprint.plugin.SimpleApiPlugin):
 					   
   def __init__(self):
-    self.test = 42
     self.button = Button(5, hold_time=3, pull_up=None, active_state=True)
     self.led = LED(22)
     self.button.when_pressed = self.buttonPress
     self.button.when_released = self.buttonRelease
     self.button.when_held = self.longPress
+    self.mode = 0
 	
-  def on_after_startup(self):
-    self._logger.info("hello world!!!")
+  #def on_after_startup(self):
+  #  self._logger.info("hello world!!!")
 
   def get_settings_defaults(self):
     return dict(words="Is it Christmas?")
@@ -41,7 +41,6 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
   def buttonRelease(self):
     self.led.off()
     self._plugin_manager.send_plugin_message(self._identifier, 'RELEASE')
-    self.test += 1
 	
   def buttonPress(self):
     self.led.on()
@@ -50,7 +49,19 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
   def longPress(self):
     self._plugin_manager.send_plugin_message(self._identifier, 'HELD')
     self.led.blink(0.05,0.05,5)
-    self._printer.set_temperature('tool0',100)
+    self._logger.info('~~~~~~~~~~~~~~~~~~~~~~')
+    self.mode = self._printer.get_state_id()
+    self._logger.info(self.mode)
+    
+    # if printing, do something different here
+    if self.mode == 'OPERATIONAL':
+      self._printer.set_temperature('tool0',100)
+      # when warm, retract filament
+      # advance to next mode
+    if self.mode == 'PRINTING':
+      self._printer.script('M600')
+    if self.mode == 'PAUSED':
+      self._printer.script('M108')
     
   def on_api_get(self, request):
     if True:
