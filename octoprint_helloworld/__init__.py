@@ -52,6 +52,7 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
   def longPress(self):
     self._plugin_manager.send_plugin_message(self._identifier, 'HELD')
     self.led.blink(0.1,0.1,5)
+    self._printer.set_temperature('tool0',100)
     
   def on_api_get(self, request):
     if True:
