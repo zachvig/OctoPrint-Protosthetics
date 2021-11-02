@@ -40,18 +40,16 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
 
   def buttonRelease(self):
     self.led.off()
-    self._plugin_manager.send_plugin_message(self._identifier, 'PRESS!!')
-    self.on_settings_save(dict(test="wow!"))
-    self._logger.info("pressed")
+    self._plugin_manager.send_plugin_message(self._identifier, 'RELEASE')
     self.test += 1
 	
   def buttonPress(self):
     self.led.on()
-    self._plugin_manager.send_plugin_message(self._identifier, 'RELEASE')
+    self._plugin_manager.send_plugin_message(self._identifier, 'PRESS!!')
     
   def longPress(self):
     self._plugin_manager.send_plugin_message(self._identifier, 'HELD')
-    self.led.blink(0.1,0.1,5)
+    self.led.blink(0.05,0.05,5)
     self._printer.set_temperature('tool0',100)
     
   def on_api_get(self, request):

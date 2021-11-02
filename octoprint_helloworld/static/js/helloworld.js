@@ -8,14 +8,10 @@ $(function() {
     function HelloworldViewModel(parameters) {
         var self = this;
 		console.log("this much is working");
-        //self.settingsViewModel = parameters[0];
-		//console.log(self.settingsViewModel);
 		
-		self.moreWords = ko.observable("something");
-		self.words = ko.observable("Is it Christmas?");
-		//self.words(settingsViewModel[settings])
+		self.moreWords = ko.observable("Ready");
+		//self.words = ko.observable("Is it Christmas?");
 
-        // TODO: Implement your plugin's view model here.
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
 			if (plugin != "helloworld") {
 				return;
@@ -23,10 +19,11 @@ $(function() {
 			console.log("a message from helloworld");
 			if (data == "PRESS!!") {
 				self.moreWords("press");
-				console.log("thing happened");
+				console.log("button pressed");
 			}
 			if (data == "RELEASE") {
 				self.moreWords("release");
+				console.log("button released");
 			}
 			if (data == "HELD") {
 				self.moreWords("held");
