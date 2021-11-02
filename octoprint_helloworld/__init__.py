@@ -11,7 +11,7 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
 					   
   def __init__(self):
     self.test = 42
-    self.button = Button(5, hold_time=3, pull_up=None, active_state=HIGH)
+    self.button = Button(5, hold_time=3, pull_up=None, active_state=True)
     self.led = LED(22)
     self.button.when_pressed = self.buttonPress
     self.button.when_released = self.buttonRelease
