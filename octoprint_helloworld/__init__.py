@@ -64,7 +64,8 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
       # when warm, retract filament
       # advance to next mode
     if self.mode == 'PRINTING':
-      self._printer.script('M600')
+      #self._printer.script('M600')
+      pass
     if self.mode == 'PAUSED':
       self._printer.script('M108')
     
