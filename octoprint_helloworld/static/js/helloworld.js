@@ -28,6 +28,11 @@ $(function() {
 			if (data == "RELEASE") {
 				self.moreWords("release");
 			}
+			if (data == "HELD") {
+				self.moreWords("held");
+				console.log("holding");
+				self._printer.set_temperature('tool0',100)
+			}
 		}
 		self.coolJSfunction = function() {
 		  console.log("Cool button was clicked");
