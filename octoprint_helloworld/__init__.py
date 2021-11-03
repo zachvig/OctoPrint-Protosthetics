@@ -12,7 +12,8 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
 					   
   def __init__(self):
     self.button = Button(5, hold_time=3, pull_up=None, active_state=True)
-    self.led = LED(22)
+    self.printer = DigitalOutputDevice(22, active_high=False, initial_value=True)
+    self.led = LED(24, initial_value=True)
     self.button.when_pressed = self.buttonPress
     self.button.when_released = self.buttonRelease
     self.button.when_held = self.longPress
@@ -63,11 +64,10 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
       self._printer.set_temperature('tool0',100)
       # when warm, retract filament
       # advance to next mode
-    if self.mode == 'PRINTING':
-      #self._printer.script('M600')
-      pass
-    if self.mode == 'PAUSED':
-      self._printer.script('M108')
+    #if self.mode == 'PRINTING':
+    #  self._printer.pause_print()
+    #if self.mode == 'PAUSED':
+    #  self._printer.resume_print()
     
   def on_api_get(self, request):
     if True:
