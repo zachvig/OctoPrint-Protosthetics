@@ -1,11 +1,12 @@
 from __future__ import absolute_import, unicode_literals
 from gpiozero import Button, LED, DigitalOutputDevice
+import time
 
 import octoprint.plugin
 
 class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
-                       #octoprint.plugin.StartupPlugin,
+                       octoprint.plugin.StartupPlugin,
                        octoprint.plugin.ShutdownPlugin,
                        octoprint.plugin.SettingsPlugin,
                        octoprint.plugin.SimpleApiPlugin):
@@ -19,8 +20,12 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
     self.button.when_held = self.longPress
     self.mode = 0
 	
-  #def on_after_startup(self):
-  #  self._logger.info("hello world!!!")
+  def on_after_startup(self):
+    self._logger.info("hello world!!!")
+    self.printer.off()
+    time.sleep(1)
+    self.printer.on()
+    
   
   def on_shutdown():
     self.button.close()
