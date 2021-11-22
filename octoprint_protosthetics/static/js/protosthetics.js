@@ -5,7 +5,7 @@
  * License: AGPLv3
  */
 $(function() {
-    function HelloworldViewModel(parameters) {
+    function ProtostheticsViewModel(parameters) {
         var self = this;
 		console.log("this much is working");
 		
@@ -13,10 +13,10 @@ $(function() {
 		//self.words = ko.observable("Is it Christmas?");
 
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
-			if (plugin != "helloworld") {
+			if (plugin != "protosthetics") {
 				return;
 			}
-			console.log("a message from helloworld");
+			console.log("a message from protosthetics");
 			if (data == "PRESS!!") {
 				self.moreWords("press");
 				console.log("button pressed");
@@ -33,7 +33,7 @@ $(function() {
 		}
 		self.coolJSfunction = function() {
 		  console.log("Cool button was clicked");
-		  OctoPrint.simpleApiGet("helloworld");
+		  OctoPrint.simpleApiGet("protosthetics");
 		}
     }
 	
