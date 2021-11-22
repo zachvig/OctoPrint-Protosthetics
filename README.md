@@ -1,17 +1,15 @@
-# OctoPrint-Helloworld
+# OctoPrint-Protosthetics
 
-**TODO:** Describe what your plugin does.
+Interface with the hardware specific to the Protosthetics Kiosk
 
 ## Setup
 
 Install via the bundled [Plugin Manager](https://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html)
 or manually using this URL:
 
-    https://github.com/aburtonProto/OctoPrint-Helloworld/archive/master.zip
+    https://github.com/aburtonProto/OctoPrint-Protosthetics/archive/master.zip
 
-**TODO:** Describe how to install your plugin, if more needs to be done than just installing it via pip or through
-the plugin manager.
 
 ## Configuration
 
-**TODO:** Describe your plugin's configuration options (if any).
+None.  This is meant for one specific use case, and should not need any configuration.
