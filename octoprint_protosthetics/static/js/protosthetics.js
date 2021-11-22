@@ -1,5 +1,5 @@
 /*
- * View model for OctoPrint-Helloworld
+ * View model for OctoPrint-Protosthetics
  *
  * Author: Aaron Burton
  * License: AGPLv3
@@ -44,10 +44,10 @@ $(function() {
      * and a full list of the available options.
      */
     OCTOPRINT_VIEWMODELS.push({
-        construct: HelloworldViewModel,
+        construct: ProtostheticsViewModel,
         dependencies: [ ], // "settingsViewModel"  ],
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
         // Elements to bind to, e.g. #settings_plugin_helloworld, #tab_plugin_helloworld, ...
-        elements: [ "#navbar_plugin_helloworld" , "#settings_plugin_helloworld" ]
+        elements: [ "#navbar_plugin_protosthetics" , "#settings_plugin_protosthetics" ]
     });
 });
