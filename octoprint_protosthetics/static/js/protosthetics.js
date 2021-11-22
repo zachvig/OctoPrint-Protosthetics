@@ -30,7 +30,7 @@ $(function() {
 				console.log("holding");
 			}
 			else {
-				console.log("something");
+				console.log(data);
 			}
 		}
 		self.coolJSfunction = function() {
