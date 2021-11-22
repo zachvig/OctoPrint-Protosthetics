@@ -51,7 +51,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     }
     
   def on_print_progress(self,storage,path,progress):
-    self._plugin_manager.send_plugin_message(self._identifier, str(progress)+'~'+str(path)+'-->'+str(storage))
+    self._plugin_manager.send_plugin_message(self._identifier, str(progress))
     self._logger.warning(path)
 
   def buttonRelease(self):
@@ -70,7 +70,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self._logger.info(self.mode)
     
     
-    if self._printer.is_paused():
+    if self.mode == "PAUSED":
       # break and continue (after filament change)
       self._printer.commands("M108")
       self._logger.info('Theoretically resuming')
@@ -90,6 +90,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         self._logger.info(request)
 	
 
-__plugin_name__ = "✋ Protosthetics Plugin :-)"
+__plugin_name__ = "☺ Protosthetics Plugin :-)"
 __plugin_pythoncompat__ = ">=3,<4"
 __plugin_implementation__ = ProtostheticsPlugin()
