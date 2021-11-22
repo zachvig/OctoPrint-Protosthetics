@@ -96,10 +96,13 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       if payload.get('name').endswith('.bin.gcode'):
         self._logger.info('Might be firmware')
         self._plugin_manager.send_plugin_message(self._identifier, 'new firmware found?')
-        files = os.listdir('/home/pi/.octoprint/uploads')
+        uploads = '/home/pi/.octoprint/uploads'
+        files = os.listdir(uploads)
         for file in files:
           if file.endswith('.bin.gcode'):
-            self._plugin_manager.send_plugin_message(self._identifier, 'file~'+file)
+            os.system('mv '+uploads+'/'+file+' '+uploads+'/LEDfirmware.bin')
+            self._plugin_manager.send_plugin_message(self._identifier, 'uploading new firmware!')
+            os.system('esptool.py -p /dev/ttyS0 write_flash 0x00 '+uploads+'/LEDfirmware.bin')
   
   def uploadESPfirmware(self):
     pass
