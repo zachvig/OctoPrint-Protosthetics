@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 from gpiozero import Button, LED, DigitalOutputDevice
-import time
+import time, os
 
 import octoprint.plugin
 
@@ -92,10 +92,14 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         
   def on_event(self,event,payload):
     if event == octoprint.events.Events.FILE_ADDED:
-      self._logger.warning('FILE ADDED!!!' + payload.get('name')
+      self._logger.warning('FILE ADDED!!!' + payload.get('name'))
       if payload.get('name').endswith('.bin.gcode'):
         self._logger.info('Might be firmware')
         self._plugin_manager.send_plugin_message(self._identifier, 'new firmware found?')
+        files = os.listdir('/home/pi/.octoprint/uploads')
+        for file in files:
+          if file.endswith('.bin.gcode'):
+            self._plugin_manager.send_plugin_message(self._identifier, 'file~'+file)
   
   def uploadESPfirmware(self):
     pass
