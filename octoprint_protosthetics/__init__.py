@@ -92,9 +92,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         
   def on_event(self,event,payload):
     if event == octoprint.events.Events.FILE_ADDED:
-      self._logger.warning('FILE ADDED!!!' + payload.name)
-      if payload.name.endswith('.bin.gcode'):
+      self._logger.warning('FILE ADDED!!!' + payload.get('name')
+      if payload.get('name').endswith('.bin.gcode'):
         self._logger.info('Might be firmware')
+        self._plugin_manager.send_plugin_message(self._identifier, 'new firmware found?')
   
   def uploadESPfirmware(self):
     pass
