@@ -4,7 +4,7 @@ import time
 
 import octoprint.plugin
 
-class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
+class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
                        octoprint.plugin.StartupPlugin,
                        octoprint.plugin.ShutdownPlugin,
@@ -46,7 +46,7 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
   
   def get_assets(self):
     return {
-      "js": ["js/helloworld.js"]
+      "js": ["js/protosthetics.js"]
     }
 
   def buttonRelease(self):
@@ -81,6 +81,6 @@ class HelloWorldPlugin(octoprint.plugin.TemplatePlugin,
         self._logger.info(request)
 	
 
-__plugin_name__ = "Hey there"
+__plugin_name__ = "Protosthetics Plugin :-)"
 __plugin_pythoncompat__ = ">=3,<4"
-__plugin_implementation__ = HelloWorldPlugin()
+__plugin_implementation__ = ProtostheticsPlugin()
