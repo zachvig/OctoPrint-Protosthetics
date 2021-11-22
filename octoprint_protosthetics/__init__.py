@@ -69,19 +69,19 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.mode = self._printer.get_state_id()
     self._logger.info(self.mode)
     
+    
+    if self._printer.is_paused():
+      # break and continue (after filament change)
+      self._printer.commands("M108")
+      self._logger.info('Theoretically resuming')
     # if printing, do something different here
-    if self._printer.is_ready():
-      self._printer.set_temperature('tool0',100)
-      # when warm, retract filament
-      # advance to next mode
     elif self._printer.is_printing():
       # change filament command
       self._printer.commands("M600 B{}".format(3,))
       self._logger.info('Theoretically pausing')
-    elif self._printer.is_paused():
-      # break and continue (after filament change)
-      self._printer.commands("M108")
-      self._logger.info('Theoretically resuming')
+    elif self._printer.is_ready():
+      self._printer.set_temperature('tool0',100)
+      # testing this out to see if it does things
     
   def on_api_get(self, request):
     if True:
@@ -90,6 +90,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         self._logger.info(request)
 	
 
-__plugin_name__ = "Protosthetics Plugin :-)"
+__plugin_name__ = "✋ Protosthetics Plugin :-)"
 __plugin_pythoncompat__ = ">=3,<4"
 __plugin_implementation__ = ProtostheticsPlugin()
