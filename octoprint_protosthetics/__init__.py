@@ -7,6 +7,7 @@ import octoprint.plugin
 class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
                        octoprint.plugin.ProgressPlugin,
+                       octoprint.plugin.EventHandlerPlugin,
                        octoprint.plugin.StartupPlugin,
                        octoprint.plugin.ShutdownPlugin,
                        octoprint.plugin.SettingsPlugin,
@@ -88,6 +89,15 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         self.led.toggle()
         self._logger.info('GUI button pressed')
         self._logger.info(request)
+        
+  def on_event(self,event,payload):
+    if event == octoprint.events.Events.FILE_ADDED:
+      self._logger.warning('FILE ADDED!!!' + payload.name)
+      if payload.name.endswith('.bin.gcode'):
+        self._logger.info('Might be firmware')
+  
+  def uploadESPfirmware(self):
+    pass
 	
 
 __plugin_name__ = "☺ Protosthetics Plugin :-)"
