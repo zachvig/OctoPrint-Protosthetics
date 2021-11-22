@@ -6,6 +6,7 @@ import octoprint.plugin
 
 class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
+                       octoprint.plugin.ProgressPlugin,
                        octoprint.plugin.StartupPlugin,
                        octoprint.plugin.ShutdownPlugin,
                        octoprint.plugin.SettingsPlugin,
@@ -48,6 +49,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     return {
       "js": ["js/protosthetics.js"]
     }
+    
+  def on_print_progress(self,storage,path,progress):
+    self._plugin_manager.send_plugin_message(self._identifier, str(progress)+'~'+str(path))
+    self._logger.warning(path)
 
   def buttonRelease(self):
     self.led.off()
@@ -69,7 +74,9 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._printer.set_temperature('tool0',100)
       # when warm, retract filament
       # advance to next mode
-    #if self.mode == 'PRINTING':
+    if self.mode == 'PRINTING':
+      self._printer.commands("M600 B{}".format(3,))
+      self._logger.info('Theoretically pausing')
     #  self._printer.pause_print()
     #if self.mode == 'PAUSED':
     #  self._printer.resume_print()

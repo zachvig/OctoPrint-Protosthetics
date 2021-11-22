@@ -21,14 +21,16 @@ $(function() {
 				self.moreWords("press");
 				console.log("button pressed");
 			}
-			if (data == "RELEASE") {
+			else if (data == "RELEASE") {
 				self.moreWords("release");
 				console.log("button released");
 			}
-			if (data == "HELD") {
+			else if (data == "HELD") {
 				self.moreWords("held");
 				console.log("holding");
-				
+			}
+			else {
+				console.log("something");
 			}
 		}
 		self.coolJSfunction = function() {
