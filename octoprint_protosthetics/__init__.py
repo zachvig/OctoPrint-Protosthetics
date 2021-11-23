@@ -17,7 +17,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.button = Button(4, hold_time=3, pull_up=None, active_state=True)
     self.printer = DigitalOutputDevice(22, active_high=False, initial_value=True)
     self.dryer   = DigitalOutputDevice(23, active_high=False, initial_value=True)
-    self.led = LED(12, initial_value=True)
+    self.led = LED(24, initial_value=True)  #will be 12 on new board
     self.button.when_pressed = self.buttonPress
     self.button.when_released = self.buttonRelease
     self.button.when_held = self.longPress
@@ -93,6 +93,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     return dict(
                   lightToggle=[],
                   dryerToggle=[],
+                  powerToggle=[],
                )
 
   def on_api_command(self,command,data):
@@ -100,9 +101,15 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     if command == 'lightToggle':
       self.led.toggle()
       self._logger.info('Light button pressed')
+      self._plugin_manager.send_plugin_message(self._identifier, 'L'+self.led.value)
     elif command == 'dryerToggle':
       self.dryer.toggle()
       self._logger.info('Dryer button pressed')
+      self._plugin_manager.send_plugin_message(self._identifier, 'D'+self.led.value)
+    elif command == 'powerToggle':
+      self.printer.toggle()
+      self._logger.info('Printer power button pressed')
+      self._plugin_manager.send_plugin_message(self._identifier, 'P'+self.led.value)
                
   def on_event(self,event,payload):
     if event == octoprint.events.Events.FILE_ADDED:

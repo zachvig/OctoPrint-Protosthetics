@@ -19,7 +19,14 @@ $(function() {
 				return;
 			}
 			console.log("a message from protosthetics≈ " + data);
-			if (data == "PRESS!!") {
+			if (data.startsWith("L"){
+				if (data[1]) {
+					self.lightStatus("Lights ON");
+				} else {
+					self.lightStatus("Lights OFF");
+				}
+			}
+			else if (data == "PRESS!!") {
 				self.buttonStatus("press");
 			}
 			else if (data == "RELEASE") {
