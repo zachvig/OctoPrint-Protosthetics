@@ -97,7 +97,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._logger.info(self.custom_mode)
       if self.custom_mode:
         self.custom_mode = 0
-        self._printer.set_temperature(self.whatItWas)
+        self._printer.set_temperature('tool0',self.whatItWas)
+        self.led.blink(0.05,0.05,5)
     # if printing, do something different here
     elif self._printer.is_printing():
       # change filament command
@@ -115,6 +116,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         else:
           self._printer.commands("M109 S%i" %self._printer.get_current_temperatures().get('tool0').get('target'))
       self._printer.commands("M600")
+      self.led.blink(0.05,0.05,5)
       self.custom_mode = "PAUSED"
         
         
