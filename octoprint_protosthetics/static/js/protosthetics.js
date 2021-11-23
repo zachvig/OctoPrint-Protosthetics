@@ -20,9 +20,9 @@ $(function() {
 			}
 			console.log("a message from protosthetics≈ " + data);
 			if (data.startsWith("L")){
-				if (data[1]) {
+				if (data[1]=="1") {
 					self.lightStatus("Lights ON");
-				} else {
+				} else if (data[1]=="0") {
 					self.lightStatus("Lights OFF");
 				}
 			}
@@ -50,7 +50,8 @@ $(function() {
 		}
 		
 		self.printerPowerFunction = function() {
-			console.log("Other Button was pressed, does nothing yet");
+			console.log("Other Button was pressed");
+			OctoPrint.simpleApiCommand("protosthetics","printerToggle");
 		}
     }
 	
