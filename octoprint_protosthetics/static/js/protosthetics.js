@@ -17,7 +17,7 @@ $(function() {
 
 		self.moreWords.subscribe(function(newValue) {
 			alert(newValue);
-			OctoPrint.simpleApiCommand("protosthetics","passSerial",newValue);
+			OctoPrint.simpleApiCommand("protosthetics","passSerial",{"payload": newValue});
 		});
 		
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
