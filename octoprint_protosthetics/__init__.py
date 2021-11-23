@@ -21,7 +21,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.button.when_pressed = self.buttonPress
     self.button.when_released = self.buttonRelease
     self.button.when_held = self.longPress
-    self.mode = 0
+    self.custom_mode = 0
     self.com = serial.Serial('/dev/ttyS0', 9600)
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
@@ -84,20 +84,32 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self._logger.info(self.mode)
     
     
-    if self.mode == "PAUSED" or self.mode == "PAUSING":
+    if self.mode == "PAUSED" or self.mode == "PAUSING" or self.custom_mode == "PAUSED":
       # break and continue (after filament change)
       self._printer.commands("M108")
       #self._printer.resume_print()
       self._logger.info('Theoretically resuming')
+      if self.custom_mode:
+        self.custom_mode = 0
+        self._printer.set_temperature(whatItWas)
     # if printing, do something different here
     elif self._printer.is_printing():
       # change filament command
       self._printer.commands("M600")
       self._logger.info('Theoretically pausing')
     elif self._printer.is_ready():
-      self._logger.info(self._printer.get_current_temperatures())
-      self._printer.set_temperature('tool0',100)
-      # testing this out to see if it does things
+      temps = self._printer.get_current_temperatures()
+      self.whatItWas = temps.get('tool0').get('target')
+      self._logger.info(temps)
+      if self.whatItWas < 200:
+        self._printer.set_temperature('tool0',220)
+      if temps.get('tool0').get('actual') < 200:
+        self._printer.commands("M117 Needs to heat first")
+        self._printer.commands("M109 S%i" %self._printer.get_current_temperatures().get('tool0').get('actual'))
+      self._printer.commands("M600")
+      self.custom_mode = "PAUSED"
+        
+        
    
         
   def send(self, data):
