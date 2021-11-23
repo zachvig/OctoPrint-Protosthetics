@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 from gpiozero import Button, LED, DigitalOutputDevice
-import time, os
+import time, os, serial
 
 import octoprint.plugin
 
@@ -8,7 +8,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
                        octoprint.plugin.ProgressPlugin,
                        octoprint.plugin.EventHandlerPlugin,
-                       octoprint.plugin.StartupPlugin,
+                       #octoprint.plugin.StartupPlugin,
                        octoprint.plugin.ShutdownPlugin,
                        octoprint.plugin.SettingsPlugin,
                        octoprint.plugin.SimpleApiPlugin):
@@ -22,13 +22,15 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.button.when_released = self.buttonRelease
     self.button.when_held = self.longPress
     self.mode = 0
-	
+    self.com = serial.Serial('/dev/ttyS0', 9600)
+    self.send('P3')
+'''	
   def on_after_startup(self):
     self._logger.info("hello world!!!")
     #self.printer.off()
     #time.sleep(3)
     #self.printer.on()
-    
+'''    
   
   def on_shutdown():
     self.button.close()
@@ -56,6 +58,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
   def on_print_progress(self,storage,path,progress):
     self._plugin_manager.send_plugin_message(self._identifier, str(progress))
+    self.send('D%i' %progress)
     self._logger.warning(path)
 
   # Button status: B?
@@ -79,7 +82,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self._logger.info(self.mode)
     
     
-    
     if self.mode == "PAUSED" or self.mode == "PAUSING":
       # break and continue (after filament change)
       self._printer.commands("M108")
@@ -94,6 +96,9 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._printer.set_temperature('tool0',100)
       # testing this out to see if it does things
    
+        
+  def send(self, data):
+    self.com.write((data + '\n').encode())
         
   def get_api_commands(self):
     return dict(
@@ -118,6 +123,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._plugin_manager.send_plugin_message(self._identifier, 'P%i' %self.printer.value)
                
   def on_event(self,event,payload):
+    if event == octoprint.events.Events.PRINT_STARTED:
+      self.send('P5')  #juggle
+    if event == octoprint.events.Events.PRINT_DONE:
+      self.send('P1')  #theater chase
     if event == octoprint.events.Events.FILE_ADDED:
       self._logger.warning('FILE ADDED!!!' + payload.get('name'))
       if payload.get('name').endswith('.bin.gcode'):
