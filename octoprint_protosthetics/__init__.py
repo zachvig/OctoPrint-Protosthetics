@@ -101,15 +101,15 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     if command == 'lightToggle':
       self.led.toggle()
       self._logger.info('Light button pressed')
-      self._plugin_manager.send_plugin_message(self._identifier, 'L'+self.led.value)
+      self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
     elif command == 'dryerToggle':
       self.dryer.toggle()
       self._logger.info('Dryer button pressed')
-      self._plugin_manager.send_plugin_message(self._identifier, 'D'+self.led.value)
+      self._plugin_manager.send_plugin_message(self._identifier, 'D%i' %self.led.value)
     elif command == 'powerToggle':
       self.printer.toggle()
       self._logger.info('Printer power button pressed')
-      self._plugin_manager.send_plugin_message(self._identifier, 'P'+self.led.value)
+      self._plugin_manager.send_plugin_message(self._identifier, 'P%i' %self.led.value)
                
   def on_event(self,event,payload):
     if event == octoprint.events.Events.FILE_ADDED:
