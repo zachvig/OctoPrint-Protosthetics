@@ -58,20 +58,26 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self._plugin_manager.send_plugin_message(self._identifier, str(progress))
     self._logger.warning(path)
 
+  # Button status: B?
+  # where ? is 0 for press, 1 for release, 2 for held
   def buttonRelease(self):
     self.led.off()
-    self._plugin_manager.send_plugin_message(self._identifier, 'RELEASE')
+    self._plugin_manager.send_plugin_message(self._identifier, 'B1')
+    self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
 	
   def buttonPress(self):
     self.led.on()
-    self._plugin_manager.send_plugin_message(self._identifier, 'PRESS!!')
+    self._plugin_manager.send_plugin_message(self._identifier, 'B0')
+    self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
     
   def longPress(self):
-    self._plugin_manager.send_plugin_message(self._identifier, 'HELD')
+    self._plugin_manager.send_plugin_message(self._identifier, 'B2')
     self.led.blink(0.05,0.05,5)
+    self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
     self._logger.info('~~~~~~~~~~~~~~~~~~~~~~')
     self.mode = self._printer.get_state_id()
     self._logger.info(self.mode)
+    
     
     
     if self.mode == "PAUSED" or self.mode == "PAUSING":
