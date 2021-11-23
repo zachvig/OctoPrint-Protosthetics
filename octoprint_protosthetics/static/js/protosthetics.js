@@ -16,7 +16,7 @@ $(function() {
 		self.lightStatus = ko.observable("Lights ON?");
 
 		self.moreWords.subscribe(function(newValue) {
-			alert(newValue);
+			console.log(newValue);
 			OctoPrint.simpleApiCommand("protosthetics","passSerial",{"payload": newValue});
 		});
 		
