@@ -123,6 +123,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.printer.toggle()
       self._logger.info('Printer power button pressed')
       self._plugin_manager.send_plugin_message(self._identifier, 'P%i' %self.printer.value)
+    elif command == 'passSerial':
+      self.send('C7')
                
   def on_event(self,event,payload):
     if event == octoprint.events.Events.PRINT_STARTED:
