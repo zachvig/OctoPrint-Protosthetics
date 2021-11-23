@@ -25,9 +25,9 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
 	
   def on_after_startup(self):
     self._logger.info("hello world!!!")
-    self.printer.off()
-    time.sleep(3)
-    self.printer.on()
+    #self.printer.off()
+    #time.sleep(3)
+    #self.printer.on()
     
   
   def on_shutdown():
