@@ -14,7 +14,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.SimpleApiPlugin):
 					   
   def __init__(self):
-    self.button = Button(4, hold_time=3, pull_up=None, active_state=True)
+    self.button = Button(5, hold_time=3, pull_up=None, active_state=True) #this is button 2 on new board
     self.printer = DigitalOutputDevice(22, active_high=False, initial_value=True)
     self.dryer   = DigitalOutputDevice(23, active_high=False, initial_value=True)
     self.led = LED(24, initial_value=True)  #will be 12 on new board
