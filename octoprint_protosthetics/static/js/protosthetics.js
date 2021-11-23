@@ -10,8 +10,8 @@ $(function() {
 		console.log("this much is working");
 		
 		self.moreWords = ko.observable("Ready");
-		self.printerStatus = ko.observable("Printer OFF?");
-		self.dryerStatus = ko.observable("Dryer OFF?");
+		self.printerStatus = ko.observable("Printer ON?");
+		self.dryerStatus = ko.observable("Dryer ON?");
 		self.buttonStatus = ko.observable("Ready");
 		self.lightStatus = ko.observable("Lights ON?");
 

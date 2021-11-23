@@ -93,7 +93,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     return dict(
                   lightToggle=[],
                   dryerToggle=[],
-                  powerToggle=[],
+                  printerToggle=[],
                )
 
   def on_api_command(self,command,data):
@@ -106,7 +106,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.dryer.toggle()
       self._logger.info('Dryer button pressed')
       self._plugin_manager.send_plugin_message(self._identifier, 'D%i' %self.dryer.value)
-    elif command == 'powerToggle':
+    elif command == 'printerToggle':
       self.printer.toggle()
       self._logger.info('Printer power button pressed')
       self._plugin_manager.send_plugin_message(self._identifier, 'P%i' %self.printer.value)
