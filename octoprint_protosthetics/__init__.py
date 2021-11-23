@@ -95,6 +95,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._printer.commands("M600")
       self._logger.info('Theoretically pausing')
     elif self._printer.is_ready():
+      self._logger.info(self._printer.get_current_temperatures())
       self._printer.set_temperature('tool0',100)
       # testing this out to see if it does things
    
