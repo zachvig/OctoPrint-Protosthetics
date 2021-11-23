@@ -10,32 +10,40 @@ $(function() {
 		console.log("this much is working");
 		
 		self.moreWords = ko.observable("Ready");
-		//self.words = ko.observable("Is it Christmas?");
+		self.dryerStatus = ko.observable("Dryer ON?");
+		self.buttonStatus = ko.observable("Ready");
+		self.lightStatus = ko.observable("Lights ON?");
 
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
 			if (plugin != "protosthetics") {
 				return;
 			}
-			console.log("a message from protosthetics");
+			console.log("a message from protosthetics≈ " + data);
 			if (data == "PRESS!!") {
-				self.moreWords("press");
-				console.log("button pressed");
+				self.buttonStatus("press");
 			}
 			else if (data == "RELEASE") {
-				self.moreWords("release");
-				console.log("button released");
+				self.buttonStatus("release");
 			}
 			else if (data == "HELD") {
-				self.moreWords("held");
-				console.log("holding");
+				self.buttonStatus("held");
 			}
 			else {
 				console.log(data);
 			}
 		}
-		self.coolJSfunction = function() {
-		  console.log("Cool button was clicked");
-		  OctoPrint.simpleApiGet("protosthetics");
+		self.lightButtonFunction = function() {
+		  console.log("Light button was clicked");
+		  OctoPrint.simpleApiCommand("protosthetics","lightToggle");
+		}
+		
+		self.dryerButtonFunction = function() {
+			console.log("Dryer button was clicked");
+			OctoPrint.simpleApiCommand("protosthetics","dryerToggle");
+		}
+		
+		self.printerPowerFunction = function() {
+			console.log("Other Button was pressed, does nothing yet");
 		}
     }
 	

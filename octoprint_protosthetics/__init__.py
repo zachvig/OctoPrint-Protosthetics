@@ -14,10 +14,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.SimpleApiPlugin):
 					   
   def __init__(self):
-    self.button = Button(5, hold_time=3, pull_up=None, active_state=True)
+    self.button = Button(4, hold_time=3, pull_up=None, active_state=True)
     self.printer = DigitalOutputDevice(22, active_high=False, initial_value=True)
     self.dryer   = DigitalOutputDevice(23, active_high=False, initial_value=True)
-    self.led = LED(24, initial_value=True)
+    self.led = LED(12, initial_value=True)
     self.button.when_pressed = self.buttonPress
     self.button.when_released = self.buttonRelease
     self.button.when_held = self.longPress
@@ -33,9 +33,11 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   def on_shutdown():
     self.button.close()
     self.led.close()
+    self.printer.close()
+    self.dryer.close()
 
   def get_settings_defaults(self):
-    return dict(words="Is it Christmas?")
+    return dict(words="Is it ☺")
 
   def get_template_vars(self):
     return dict(words=self._settings.get(["words"]),
@@ -72,27 +74,36 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self._logger.info(self.mode)
     
     
-    if self.mode == "PAUSED":
+    if self.mode == "PAUSED" or self.mode == "PAUSING":
       # break and continue (after filament change)
-      #self._printer.commands("M108")
-      self._printer.resume_print()
+      self._printer.commands("M108")
+      #self._printer.resume_print()
       self._logger.info('Theoretically resuming')
     # if printing, do something different here
     elif self._printer.is_printing():
       # change filament command
-      self._printer.commands("M600 B{}".format(3,))
+      self._printer.commands("M600")
       self._logger.info('Theoretically pausing')
     elif self._printer.is_ready():
       self._printer.set_temperature('tool0',100)
       # testing this out to see if it does things
-    
-  def on_api_get(self, request):
-    if True:
-        self.dryer.toggle()
-        self.led.toggle()
-        self._logger.info('GUI button pressed')
-        self._logger.info(request)
+   
         
+  def get_api_commands(self):
+    return dict(
+                  lightToggle=[],
+                  dryerToggle=[],
+               )
+
+  def on_api_command(self,command,data):
+    self._logger.info(command+data)
+    if command == 'lightToggle':
+      self.led.toggle()
+      self._logger.info('Light button pressed')
+    elif command == 'dryerToggle':
+      self.dryer.toggle()
+      self._logger.info('Dryer button pressed')
+               
   def on_event(self,event,payload):
     if event == octoprint.events.Events.FILE_ADDED:
       self._logger.warning('FILE ADDED!!!' + payload.get('name'))
@@ -107,9 +118,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
             self._plugin_manager.send_plugin_message(self._identifier, 'uploading new firmware!')
             # add the reset pin sequence here when the new hat
             os.system('esptool.py -p /dev/ttyS0 write_flash 0x00 '+uploads+'/LEDfirmware.bin')
-  
-  def uploadESPfirmware(self):
-    pass
 	
 
 __plugin_name__ = "☺ Protosthetics Plugin :-)"
