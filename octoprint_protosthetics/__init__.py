@@ -116,6 +116,9 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._logger.warning('FILE ADDED!!!' + payload.get('name'))
       if payload.get('name').endswith('.bin.gcode'):
         self._logger.info('Might be firmware')
+        if not self._printer.is_ready():
+          self._logger.warning("Do not try to upload new firmware while printing‼")
+          return
         self._plugin_manager.send_plugin_message(self._identifier, 'new firmware found?')
         uploads = '/home/pi/.octoprint/uploads'
         files = os.listdir(uploads)

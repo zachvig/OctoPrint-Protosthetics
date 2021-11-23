@@ -10,7 +10,8 @@ $(function() {
 		console.log("this much is working");
 		
 		self.moreWords = ko.observable("Ready");
-		self.dryerStatus = ko.observable("Dryer ON?");
+		self.printerStatus = ko.observable("Printer OFF?");
+		self.dryerStatus = ko.observable("Dryer OFF?");
 		self.buttonStatus = ko.observable("Ready");
 		self.lightStatus = ko.observable("Lights ON?");
 
@@ -25,7 +26,18 @@ $(function() {
 				} else if (data[1]=="0") {
 					self.lightStatus("Lights OFF");
 				}
-			}
+			} else if (data.startsWith("D")){
+				if (data[1]=="1") {
+					self.dryerStatus("Dryer ON");
+				} else if (data[1]=="0") {
+					self.dryerStatus("Dryer OFF");
+				}
+			} else if (data.startsWith("P")){
+				if (data[1]=="1") {
+					self.printerStatus("Printer ON");
+				} else if (data[1]=="0") {
+					self.printerStatus("Printer OFF");
+				}
 			else if (data == "PRESS!!") {
 				self.buttonStatus("press");
 			}
