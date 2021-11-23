@@ -22,7 +22,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.button.when_released = self.buttonRelease
     self.button.when_held = self.longPress
     self.custom_mode = 0
-    self.com = serial.Serial('/dev/ttyS0', 9600)
+    self.com = serial.Serial('/dev/ttyS0', 9600)  #put a try:except here
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
   '''	
@@ -89,6 +89,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._printer.commands("M108")
       #self._printer.resume_print()
       self._logger.info('Theoretically resuming')
+      self._logger.info(self.custom_mode)
       if self.custom_mode:
         self.custom_mode = 0
         self._printer.set_temperature(whatItWas)
@@ -101,9 +102,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       temps = self._printer.get_current_temperatures()
       self.whatItWas = temps.get('tool0').get('target')
       self._logger.info(temps)
-      
+      self._logger.info(self.whatItWas)
       if temps.get('tool0').get('actual') < 200:
-        self._printer.commands("M117 Needs to heat first")
         if self.whatItWas < 200:
           #self._printer.set_temperature('tool0',220)
           self._printer.commands("M109 S220")
