@@ -96,7 +96,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                )
 
   def on_api_command(self,command,data):
-    self._logger.info(command+data)
+    self._logger.info(command+str(data))
     if command == 'lightToggle':
       self.led.toggle()
       self._logger.info('Light button pressed')
