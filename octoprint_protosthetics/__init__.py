@@ -22,7 +22,12 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.button.when_released = self.buttonRelease
     self.button.when_held = self.longPress
     self.custom_mode = 0
-    self.com = serial.Serial('/dev/ttyS0', 9600)  #put a try:except here
+    try:
+      self.com = serial.Serial('/dev/ttyS0', 9600)
+      self.hasSerial = True
+    except: #what exception goes here?
+      self._logger.warning("No connection to LED controller.  Check raspi-config settings.")
+      self.hasSerial = False
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
   '''	
@@ -92,7 +97,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._logger.info(self.custom_mode)
       if self.custom_mode:
         self.custom_mode = 0
-        self._printer.set_temperature(whatItWas)
+        self._printer.set_temperature(self.whatItWas)
     # if printing, do something different here
     elif self._printer.is_printing():
       # change filament command
@@ -116,7 +121,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
    
         
   def send(self, data):
-    self.com.write((data + '\n').encode())
+    if self.hasSerial:
+      self.com.write((data + '\n').encode())
         
   def get_api_commands(self):
     return dict(
