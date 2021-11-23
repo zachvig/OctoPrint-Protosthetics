@@ -16,6 +16,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   def __init__(self):
     self.button = Button(5, hold_time=3, pull_up=None, active_state=True)
     self.printer = DigitalOutputDevice(22, active_high=False, initial_value=True)
+    self.dryer   = DigitalOutputDevice(23, active_high=False, initial_value=True)
     self.led = LED(24, initial_value=True)
     self.button.when_pressed = self.buttonPress
     self.button.when_released = self.buttonRelease
@@ -25,7 +26,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   def on_after_startup(self):
     self._logger.info("hello world!!!")
     self.printer.off()
-    time.sleep(1)
+    time.sleep(3)
     self.printer.on()
     
   
@@ -73,7 +74,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
     if self.mode == "PAUSED":
       # break and continue (after filament change)
-      self._printer.commands("M108")
+      #self._printer.commands("M108")
+      self._printer.resume_print()
       self._logger.info('Theoretically resuming')
     # if printing, do something different here
     elif self._printer.is_printing():
@@ -86,6 +88,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
   def on_api_get(self, request):
     if True:
+        self.dryer.toggle()
         self.led.toggle()
         self._logger.info('GUI button pressed')
         self._logger.info(request)
@@ -102,6 +105,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
           if file.endswith('.bin.gcode'):
             os.system('mv '+uploads+'/'+file+' '+uploads+'/LEDfirmware.bin')
             self._plugin_manager.send_plugin_message(self._identifier, 'uploading new firmware!')
+            # add the reset pin sequence here when the new hat
             os.system('esptool.py -p /dev/ttyS0 write_flash 0x00 '+uploads+'/LEDfirmware.bin')
   
   def uploadESPfirmware(self):
