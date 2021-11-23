@@ -107,6 +107,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                   lightToggle=[],
                   dryerToggle=[],
                   printerToggle=[],
+                  passSerial=['payload']
                )
 
   def on_api_command(self,command,data):
