@@ -23,7 +23,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.button.when_held = self.longPress
     self.mode = 0
     self.com = serial.Serial('/dev/ttyS0', 9600)
-    self.send('P3')
+    self.send('P3') #plasma
+    self.send('C0') #Ocean colors
   '''	
   def on_after_startup(self):
     self._logger.info("hello world!!!")
@@ -58,6 +59,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
   def on_print_progress(self,storage,path,progress):
     self._plugin_manager.send_plugin_message(self._identifier, str(progress))
+    self.send('P8') #progress bar with plasma
     self.send('D%i' %progress)
     self._logger.warning(path)
 
@@ -124,7 +126,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                
   def on_event(self,event,payload):
     if event == octoprint.events.Events.PRINT_STARTED:
-      self.send('P5')  #juggle
+      self.send('C1')  #party colors
     if event == octoprint.events.Events.PRINT_DONE:
       self.send('P1')  #theater chase
     if event == octoprint.events.Events.FILE_ADDED:
