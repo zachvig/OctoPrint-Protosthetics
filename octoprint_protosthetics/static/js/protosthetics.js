@@ -38,16 +38,13 @@ $(function() {
 				} else if (data[1]=="0") {
 					self.printerStatus("Printer OFF");
 				}
-			else if (data == "PRESS!!") {
+			} else if (data == "PRESS!!") {
 				self.buttonStatus("press");
-			}
-			else if (data == "RELEASE") {
+			} else if (data == "RELEASE") {
 				self.buttonStatus("release");
-			}
-			else if (data == "HELD") {
+			} else if (data == "HELD") {
 				self.buttonStatus("held");
-			}
-			else {
+			} else {
 				console.log(data);
 			}
 		}
