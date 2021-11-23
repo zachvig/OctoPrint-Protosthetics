@@ -105,7 +105,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         self._printer.set_temperature('tool0',220)
       if temps.get('tool0').get('actual') < 200:
         self._printer.commands("M117 Needs to heat first")
-        self._printer.commands("M109 S%i" %self._printer.get_current_temperatures().get('tool0').get('actual'))
+        self._printer.commands("M109 S%i" %self._printer.get_current_temperatures().get('tool0').get('target'))
       self._printer.commands("M600")
       self.custom_mode = "PAUSED"
         
