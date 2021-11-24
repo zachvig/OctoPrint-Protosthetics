@@ -16,7 +16,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   def __init__(self):
     self.button = Button(5, hold_time=3, pull_up=None, active_state=True) #this is button 2 on new board
     self.printer = DigitalOutputDevice(22, active_high=False, initial_value=True)
-    self.dryer   = DigitalOutputDevice(23, active_high=False, initial_value=True)
+    self.dryer   = DigitalOutputDevice(23, active_high=False, initial_value=False)
     self.led = LED(24, initial_value=True)  #will be 12 on new board
     self.button.when_pressed = self.buttonPress
     self.button.when_released = self.buttonRelease
@@ -98,7 +98,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       if self.custom_mode:
         self.custom_mode = 0
         self._printer.set_temperature('tool0',self.whatItWas)
-        self.led.blink(0.05,0.05,5)
+        self.led.on()
     # if printing, do something different here
     elif self._printer.is_printing():
       # change filament command
@@ -116,7 +116,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         else:
           self._printer.commands("M109 S%i" %self._printer.get_current_temperatures().get('tool0').get('target'))
       self._printer.commands("M600")
-      self.led.blink(0.05,0.05,5)
+      self.led.on()
       self.custom_mode = "PAUSED"
         
         
