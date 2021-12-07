@@ -14,13 +14,18 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.SimpleApiPlugin):
 					   
   def __init__(self):
-    self.button = Button(5, hold_time=3, pull_up=None, active_state=True) #this is button 2 on new board
+    self.button1 = Button(4, hold_time=3, pull_up=None, active_state=True)
+    self.button2 = Button(5, hold_time=3, pull_up=None, active_state=True)
+    self.button3 = Button(6, hold_time=3, pull_up=None, active_state=True)
     self.printer = DigitalOutputDevice(22, active_high=False, initial_value=True)
-    self.dryer   = DigitalOutputDevice(23, active_high=False, initial_value=False)
-    self.led = LED(24, initial_value=True)  #will be 12 on new board
-    self.button.when_pressed = self.buttonPress
-    self.button.when_released = self.buttonRelease
-    self.button.when_held = self.longPress
+    self.dryer   = DigitalOutputDevice(23, active_high=True, initial_value=False)
+    self.led = LED(12, initial_value=True)
+    self.flash = DigitalOutputDevice(17, active_high=False, initial_value=False)
+    self.ESPreset = DigitalOutputDevice(16, active_high=False, initial_value=False)
+    
+    self.button1.when_pressed = self.buttonPress
+    self.button1.when_released = self.buttonRelease
+    self.button1.when_held = self.longPress
     self.custom_mode = 0
     try:
       self.com = serial.Serial('/dev/ttyS0', 9600)
@@ -43,13 +48,15 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.led.close()
     self.printer.close()
     self.dryer.close()
-
+  
   def get_settings_defaults(self):
     return dict(words="Is it ☺")
-
+  
+  
   def get_template_vars(self):
     return dict(words=self._settings.get(["words"]),
 	            test=self.button.is_pressed)
+  
 
   def get_template_configs(self):
     return [
@@ -66,7 +73,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self._plugin_manager.send_plugin_message(self._identifier, str(progress))
     self.send('P8') #progress bar with plasma
     self.send('D%i' %progress)
-    self._logger.warning(path)
 
   # Button status: B?
   # where ? is 0 for press, 1 for release, 2 for held
@@ -77,12 +83,12 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
 	
   def buttonPress(self):
     self.led.on()
-    self._plugin_manager.send_plugin_message(self._identifier, 'B0')
+    
     self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
     
   def longPress(self):
     self._plugin_manager.send_plugin_message(self._identifier, 'B2')
-    self.led.blink(0.05,0.05,5)
+    self.led.blink(0.05,0.05,5)  #change this to be LED indicator
     self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
     self._logger.info('~~~~~~~~~~~~~~~~~~~~~~')
     self.mode = self._printer.get_state_id()
@@ -171,7 +177,17 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
             os.system('mv '+uploads+'/'+file+' '+uploads+'/LEDfirmware.bin')
             self._plugin_manager.send_plugin_message(self._identifier, 'uploading new firmware!')
             # add the reset pin sequence here when the new hat
+            self.flash.on()
+            self.ESPreset.on()
+            time.sleep(0.1)
+            self.ESPreset.off()
+            self.flash.off()
+            self._plugin_manager.send_plugin_message(self._identifier, 'Firmware started')
             os.system('esptool.py -p /dev/ttyS0 write_flash 0x00 '+uploads+'/LEDfirmware.bin')
+            self._plugin_manager.send_plugin_message(self._identifier, 'Firmware uploaded')
+            self.ESPreset.on()
+            time.sleep(0.1)
+            self.ESPreset.off()
 	
 
 __plugin_name__ = "☺ Protosthetics Plugin :-)"
