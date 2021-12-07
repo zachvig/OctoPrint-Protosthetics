@@ -55,7 +55,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   
   def get_template_vars(self):
     return dict(words=self._settings.get(["words"]),
-	            test=self.button.is_pressed)
+	            test=self.button1.is_pressed)
   
 
   def get_template_configs(self):
