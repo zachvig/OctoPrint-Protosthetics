@@ -191,8 +191,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
             time.sleep(0.1)
             self.ESPreset.off()
 	
-    def get_update_information(self):
-      return {
+  def get_update_information(self):
+    return {
         "protosthetics": {
           'displayName': "Protosthetics Plugin",
           'displayVersion': self._plugin_version,
@@ -207,7 +207,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                 },
           'pip': "https://github.com/aburtonProto/OctoPrint-Protosthetics/archive/{target_version}.zip"
         }
-      }
+    }
     
     
 __plugin_name__ = "Protosthetics Plugin"
@@ -220,5 +220,5 @@ def __plugin_load__():
   
   global __plugin_hooks__
   __plugin_hooks__ = {
-    "octoprint.plugin.softwareupdate.check_config": plugin.get_update_information()
+    "octoprint.plugin.softwareupdate.check_config": plugin.get_update_information
   }
