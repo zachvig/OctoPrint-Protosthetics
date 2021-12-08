@@ -26,7 +26,7 @@ $(function() {
 			}
 			//console.log("a message from protosthetics≈ " + data);
 			if (data.startsWith("ERROR≈"){
-				alert(data.substring(6))
+				alert(data.substring(6));
 			} else if (data.startsWith("L")){
 				if (data[1]=="1") {
 					self.lightStatus("Lights ON");
