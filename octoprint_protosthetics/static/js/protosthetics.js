@@ -25,7 +25,7 @@ $(function() {
 				return;
 			}
 			//console.log("a message from protosthetics≈ " + data);
-			if (data.startsWith("ERROR≈"){
+			if (data.startsWith("ERROR≈")){
 				alert(data.substring(6));
 			} else if (data.startsWith("L")){
 				if (data[1]=="1") {
