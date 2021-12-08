@@ -25,7 +25,9 @@ $(function() {
 				return;
 			}
 			//console.log("a message from protosthetics≈ " + data);
-			if (data.startsWith("L")){
+			if (data.startsWith("ERROR≈"){
+				alert(data.substring(6))
+			} else if (data.startsWith("L")){
 				if (data[1]=="1") {
 					self.lightStatus("Lights ON");
 				} else if (data[1]=="0") {
@@ -56,17 +58,17 @@ $(function() {
 			}
 		}
 		self.lightButtonFunction = function() {
-		  console.log("Light button was clicked");
+		  //console.log("Light button was clicked");
 		  OctoPrint.simpleApiCommand("protosthetics","lightToggle");
 		}
 		
 		self.dryerButtonFunction = function() {
-			console.log("Dryer button was clicked");
+			//console.log("Dryer button was clicked");
 			OctoPrint.simpleApiCommand("protosthetics","dryerToggle");
 		}
 		
 		self.printerPowerFunction = function() {
-			console.log("Other Button was pressed");
+			//console.log("Other Button was pressed");
 			OctoPrint.simpleApiCommand("protosthetics","printerToggle");
 		}
     }
