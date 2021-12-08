@@ -220,5 +220,5 @@ def __plugin_load__():
   
   global __plugin_hooks__
   __plugin_hooks__ = {
-    "octoprint.plugin.softwareupdate.check_config": plugin.get_update_information
+    "octoprint.plugin.softwareupdate.check_config": plugin.get_update_information()
   }
