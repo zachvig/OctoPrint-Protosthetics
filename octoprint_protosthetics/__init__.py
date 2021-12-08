@@ -194,7 +194,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     def get_update_information(self):
       return {
         "protosthetics": {
-          'displayName': __plugin_name__,
+          'displayName': "Protosthetics Plugin",
           'displayVersion': self._plugin_version,
           'type': "github_release",
           'user': "aburtonProto",
@@ -220,5 +220,5 @@ def __plugin_load__():
   
   global __plugin_hooks__
   __plugin_hooks__ = {
-    "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
+    "octoprint.plugin.softwareupdate.check_config": plugin.get_update_information
   }
