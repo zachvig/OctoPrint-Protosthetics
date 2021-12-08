@@ -182,7 +182,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
               subprocess.check_output('esptool.py', shell=True)
             except subprocess.CalledProcessError:
               self._plugin_manager.send_plugin_message(self._identifier, 'installing esptool')
-              os.system('apt install esptool')
+              esptool = subprocess.check_output('sudo apt install esptool')
+              self._plugin_manager.send_plugin_message(self._identifier, esptool)
             self._plugin_manager.send_plugin_message(self._identifier, 'uploading new firmware!')
             # add the reset pin sequence here when the new hat
             self.flash.on()
