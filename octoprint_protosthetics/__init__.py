@@ -213,12 +213,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
 __plugin_name__ = "Protosthetics Plugin"
 __plugin_pythoncompat__ = ">=3,<4"
 
-def __plugin_load__():
-  global __plugin_implementation__
-  __plugin_implementation__ = ProtostheticsPlugin()
-  plugin = __plugin_implementation__
-  
-  global __plugin_hooks__
-  __plugin_hooks__ = {
-    "octoprint.plugin.softwareupdate.check_config": plugin.get_update_information
-  }
+__plugin_implementation__ = ProtostheticsPlugin()
+__plugin_hooks__ = {
+    "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
+}
