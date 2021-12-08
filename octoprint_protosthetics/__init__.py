@@ -192,22 +192,33 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
             self.ESPreset.off()
 	
     def get_update_information(self):
-      return dict(
-        protosthetics=dict(
-          displayName=__plugin_name__,
-          displayVersion=self._plugin_version,
-          type="github_release",
-          user="aburtonProto",
-          repo="OctoPrint-Protosthetics",
-          current=self._plugin_version,
-          pip="https://github.com/aburtonProto/OctoPrint-Protosthetics/archive/{target_version}.zip"
-        )
-      )
+      return {
+        "protosthetics": {
+          'displayName': __plugin_name__,
+          'displayVersion': self._plugin_version,
+          'type': "github_release",
+          'user': "aburtonProto",
+          'repo': "OctoPrint-Protosthetics",
+          'current': self._plugin_version,
+          "stable_branch": {
+                    "name": "Stable",
+                    "branch": "master",
+                    "comittish": ["master"],
+                },
+          'pip': "https://github.com/aburtonProto/OctoPrint-Protosthetics/archive/{target_version}.zip"
+        }
+      }
     
     
 __plugin_name__ = "Protosthetics Plugin"
 __plugin_pythoncompat__ = ">=3,<4"
-__plugin_implementation__ = ProtostheticsPlugin()
-__plugin_hooks__ = {
-  "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
-}
+
+def __plugin_load__():
+  global __plugin_implementation__
+  __plugin_implementation__ = ProtostheticsPlugin()
+  plugin = __plugin_implementation__
+  
+  global __plugin_hooks__
+  __plugin_hooks__ = {
+    "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
+  }
