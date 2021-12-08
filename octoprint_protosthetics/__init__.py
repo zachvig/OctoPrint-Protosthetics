@@ -131,6 +131,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   def send(self, data):
     if self.hasSerial:
       self.com.write((data + '\n').encode())
+      self._logger.info('Sent≈ ' + data)
         
   def get_api_commands(self):
     return dict(
@@ -156,6 +157,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._plugin_manager.send_plugin_message(self._identifier, 'P%i' %self.printer.value)
     elif command == 'passSerial':
       self.send(data.get('payload'))
+      self._logger.info('Serial command sent')
                
   def on_event(self,event,payload):
     if event == octoprint.events.Events.PRINT_STARTED:
