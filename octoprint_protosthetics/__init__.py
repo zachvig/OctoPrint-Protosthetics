@@ -176,14 +176,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
           if file.endswith('.bin.gcode'):
             os.system('mv '+uploads+'/'+file+' '+uploads+'/LEDfirmware.bin')
             
-            #Check for esptool and warn if not found
-            try:
-              import subprocess
-              subprocess.check_output('esptool.py', shell=True)
-            except subprocess.CalledProcessError:
-              self._plugin_manager.send_plugin_message(self._identifier, 'ERROR≈esptool not found, please install')
-              return
-              
             self._plugin_manager.send_plugin_message(self._identifier, 'uploading new firmware!')
             # add the reset pin sequence here when the new hat
             self.flash.on()
