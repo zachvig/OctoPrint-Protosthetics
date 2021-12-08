@@ -191,7 +191,23 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
             time.sleep(0.1)
             self.ESPreset.off()
 	
-
+    def get_update_information(self):
+      return dict(
+        protosthetics=dict(
+          displayName=__plugin_name__,
+          displayVersion=self._plugin_version,
+          type="github_release",
+          user="aburtonProto",
+          repo="OctoPrint-Protosthetics",
+          current=self._plugin_version,
+          pip="https://github.com/aburtonProto/OctoPrint-Protosthetics/archive/{target_version}.zip"
+        )
+      )
+    
+    
 __plugin_name__ = "Protosthetics Plugin"
 __plugin_pythoncompat__ = ">=3,<4"
 __plugin_implementation__ = ProtostheticsPlugin()
+__plugin_hooks__ = {
+  "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
+}
