@@ -163,6 +163,11 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.send('C1')  #party colors
     if event == octoprint.events.Events.PRINT_DONE:
       self.send('P1')  #theater chase
+    if event == octoprint.events.Events.PRINT_CANCELLED:
+      self.send('P7')
+      self.send('C2')
+    if event == octoprint.events.Events.PRINT_FAILED:
+      self._plugin_manager.send_plugin_message(self._identifier, 'ERROR≈Print Failed')
     if event == octoprint.events.Events.FILE_ADDED:
       self._logger.warning('FILE ADDED!!!' + payload.get('name'))
       if payload.get('name').endswith('.bin.gcode'):
