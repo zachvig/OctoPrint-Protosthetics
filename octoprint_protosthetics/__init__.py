@@ -131,7 +131,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   def send(self, data):
     if self.hasSerial:
       self.com.write((data + '\n').encode())
-      self._logger.info('Sent≈ ' + data)
         
   def get_api_commands(self):
     return dict(
