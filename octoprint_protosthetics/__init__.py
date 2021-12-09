@@ -4,6 +4,7 @@ import time, os, serial
 from .DHT20 import DFRobot_DHT20 as DHT
 
 import octoprint.plugin
+from octoprint.util import RepeatedTimer
 
 class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
@@ -39,10 +40,13 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
     self.dht = DHT(0x01,0x38)  #use i2c port 1 and address 0x38
     self.dht.begin()
+    self.updateTimer = RepeatedTimer(10.0, self.reportDHT, run_first=True)
+    self.updateTimer.start()
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
     self.led.pulse()
   
+
   
   def on_shutdown():
     self.button1.close()
@@ -53,6 +57,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.dryer.close()
     self.flash.close()
     self.ESPreset.close()
+    self.updateTimer.cancel()
   
   
   def get_template_vars(self):
