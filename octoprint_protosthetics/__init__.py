@@ -9,7 +9,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
                        octoprint.plugin.ProgressPlugin,
                        octoprint.plugin.EventHandlerPlugin,
-                       #octoprint.plugin.StartupPlugin,
                        octoprint.plugin.ShutdownPlugin,
                        octoprint.plugin.SettingsPlugin,
                        octoprint.plugin.SimpleApiPlugin):
@@ -28,24 +27,23 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.button1.when_released = self.buttonRelease
     self.button1.when_held = self.longPress
     self.custom_mode = 0
+    
+    self.button2.when_pressed = self.reportDHT
+    
     try:
       self.com = serial.Serial('/dev/ttyS0', 9600)
       self.hasSerial = True
     except: #what exception goes here?
       self._logger.warning("No connection to LED controller.  Check raspi-config settings.")
       self.hasSerial = False
-    #this will need a try/catch later
+    
     self.dht = DHT(0x01,0x38)  #use i2c port 1 and address 0x38
-    self.dht.begin()
+    if self.dht.begin() == 0:
+      self.hasDHT = True
+    else: self.hasDHT = False
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
-  '''	
-  def on_after_startup(self):
-    self._logger.info("hello world!!!")
-    #self.printer.off()
-    #time.sleep(3)
-    #self.printer.on()
-  '''    
+  
   
   def on_shutdown():
     self.button1.close()
@@ -56,9 +54,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.dryer.close()
     self.flash.close()
     self.ESPreset.close()
-  
-  def get_settings_defaults(self):
-    return dict(words="Is it ☺")
   
   
   def get_template_vars(self):
@@ -94,9 +89,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
 	
   def buttonPress(self):
     self.led.on()
-    temp = self.dht.get_temperature()
-    hum  = self.dht.get_humidity()
-    self._plugin_manager.send_plugin_message(self._identifier, 'T%f~H%f' %(temp,hum))
     self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
     
   def longPress(self):
@@ -139,7 +131,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.custom_mode = "PAUSED"
         
         
-   
+  def reportDHT(self):
+    temp = self.dht.get_temperature()
+    hum  = self.dht.get_humidity()
+    self._plugin_manager.send_plugin_message(self._identifier, 'T%.2f~H%.2f' %(temp,hum))
         
   def send(self, data):
     if self.hasSerial:
