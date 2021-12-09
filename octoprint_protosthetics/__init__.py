@@ -71,6 +71,9 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
   def on_print_progress(self,storage,path,progress):
     self._plugin_manager.send_plugin_message(self._identifier, str(progress))
+    if progress == 100:
+      # don't send (use print_done event instead)
+      return
     self.send('P8') #progress bar with plasma
     self.send('D%i' %progress)
 
@@ -164,8 +167,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     if event == octoprint.events.Events.PRINT_DONE:
       self.send('P1')  #theater chase
     if event == octoprint.events.Events.PRINT_CANCELLED:
-      self.send('P7')
-      self.send('C2')
+      self.send('P7')  #Fire
+      self.send('C2')  #Lava colors
     if event == octoprint.events.Events.PRINT_FAILED:
       self._plugin_manager.send_plugin_message(self._identifier, 'ERROR≈Print Failed')
     if event == octoprint.events.Events.FILE_ADDED:
@@ -175,7 +178,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         if not self._printer.is_ready():
           self._logger.warning("Do not try to upload new firmware while printing‼")
           return
-        self._plugin_manager.send_plugin_message(self._identifier, 'new firmware found?')
+        self._plugin_manager.send_plugin_message(self._identifier, 'new firmware found')
         uploads = '/home/pi/.octoprint/uploads'
         files = os.listdir(uploads)
         for file in files:
@@ -196,6 +199,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
             self.ESPreset.on()
             time.sleep(0.1)
             self.ESPreset.off()
+            break
 	
   def get_update_information(self):
     return {
