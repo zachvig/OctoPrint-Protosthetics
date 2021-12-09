@@ -25,7 +25,7 @@ $(function() {
 		
 		self.brightness.subscribe(function(newValue) {
 			console.log(newValue);
-			Octoprint.simpleApiCommand("protosthetics","brightness",{"payload": newValue});
+			OctoPrint.simpleApiCommand("protosthetics","brightness",{"payload": newValue});
 		});
 		
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
