@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from gpiozero import Button, LED, DigitalOutputDevice
 import time, os, serial
+from DHT20 import DFRobot_DHT20 as DHT20
 
 import octoprint.plugin
 
@@ -33,6 +34,9 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     except: #what exception goes here?
       self._logger.warning("No connection to LED controller.  Check raspi-config settings.")
       self.hasSerial = False
+    #this will need a try/catch later
+    self.dht = DHT(0x01,0x38)  #use i2c port 1 and address 0x38
+    self.dht.begin()
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
   '''	
@@ -44,10 +48,14 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   '''    
   
   def on_shutdown():
-    self.button.close()
+    self.button1.close()
+    self.button2.close()
+    self.button3.close()
     self.led.close()
     self.printer.close()
     self.dryer.close()
+    self.flash.close()
+    self.ESPreset.close()
   
   def get_settings_defaults(self):
     return dict(words="Is it ☺")
@@ -86,7 +94,9 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
 	
   def buttonPress(self):
     self.led.on()
-    
+    temp = self.dht.get_temperature()
+    hum  = self.dht.get_humidity()
+    self._plugin_manager.send_plugin_message(self._identifier, 'T%f~H%f' %(temp,hum))
     self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
     
   def longPress(self):
@@ -177,6 +187,9 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         self._logger.info('Might be firmware')
         if not self._printer.is_ready():
           self._logger.warning("Do not try to upload new firmware while printing‼")
+          return
+        if not self.hasSerial:
+          self._logger.warning("Serial not initialized, use raspi-config")
           return
         self._plugin_manager.send_plugin_message(self._identifier, 'new firmware found')
         uploads = '/home/pi/.octoprint/uploads'
