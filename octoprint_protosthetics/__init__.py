@@ -40,11 +40,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
     self.dht = DHT(0x01,0x38)  #use i2c port 1 and address 0x38
     self.dht.begin()
-    self.updateTimer = RepeatedTimer(10.0, self.reportDHT, run_first=True)
+    self.updateTimer = RepeatedTimer(10.0, self.reportDHT)
     self.updateTimer.start()
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
-    self.led.pulse()
   
 
   
@@ -69,7 +68,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     return [
       #dict(type="navbar"),
       dict(type="settings", custom_bindings=True),
-      dict(type="sidebar", custom_bindings=True)
+      dict(type="sidebar")
     ]
   
   def get_assets(self):
@@ -144,7 +143,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     hum  = self.dht.get_humidity()
     self.sendMessage('Temp',temp)
     self.sendMessage('Hum',hum)
-    #self._plugin_manager.send_plugin_message(self._identifier, 'T%.2f~H%.2f' %(temp,hum))
+    self.sendMessage('INFO','Hello there')
         
   def send(self, data):
     if self.hasSerial:

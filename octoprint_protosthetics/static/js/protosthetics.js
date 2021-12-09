@@ -59,6 +59,7 @@ $(function() {
 				self.buttonStatus(data.message);
 			} else if (data.type=="Temp") {
 				self.temperature(data.message);
+				console.log(data.message);
 			} else if (data.type=="Hum") {
 				self.humidity(data.message);
 			} else {
