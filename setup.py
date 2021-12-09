@@ -14,7 +14,7 @@ plugin_package = "octoprint_protosthetics"
 plugin_name = "OctoPrint-Protosthetics"
 
 # The plugin's version. Can be overwritten within OctoPrint's internal data via __plugin_version__ in the plugin module
-plugin_version = "0.4.6.4"
+plugin_version = "0.4.6.5"
 
 # The plugin's description. Can be overwritten within OctoPrint's internal data via __plugin_description__ in the plugin
 # module
@@ -33,7 +33,7 @@ plugin_url = "https://github.com/aburtonProto/OctoPrint-Protosthetics"
 plugin_license = "AGPLv3"
 
 # Any additional requirements besides OctoPrint should be listed here
-plugin_requires = ['gpiozero', 'RPi.GPIO', 'pyserial', 'esptool']
+plugin_requires = ['gpiozero', 'RPi.GPIO', 'pyserial', 'smbus']
 
 ### --------------------------------------------------------------------------------------------------------------------
 ### More advanced options that you usually shouldn't have to touch follow after this point
