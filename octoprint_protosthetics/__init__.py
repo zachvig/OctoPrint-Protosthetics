@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from gpiozero import Button, LED, DigitalOutputDevice
 import time, os, serial
-from DHT20 import DFRobot_DHT20 as DHT20
+from DHT20 import DFRobot_DHT20 as DHT
 
 import octoprint.plugin
 
