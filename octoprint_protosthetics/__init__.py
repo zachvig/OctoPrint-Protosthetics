@@ -167,6 +167,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._logger.info('Serial command sent')
                
   def on_event(self,event,payload):
+    if event == octoprint.events.Events.ERROR:
+      self._plugin_manager.send_plugin_message(self._identifier, 'ERROR≈Error event reported:\n' + payload.get('error'))
     if event == octoprint.events.Events.PRINT_STARTED:
       self.send('C1')  #party colors
     if event == octoprint.events.Events.PRINT_DONE:
@@ -175,7 +177,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.send('P7')  #Fire
       self.send('C2')  #Lava colors
     if event == octoprint.events.Events.PRINT_FAILED:
-      self._plugin_manager.send_plugin_message(self._identifier, 'ERROR≈Print Failed')
+      self._plugin_manager.send_plugin_message(self._identifier, 'Error: Print Failed')
     if event == octoprint.events.Events.FILE_ADDED:
       self._logger.warning('FILE ADDED!!!' + payload.get('name'))
       if payload.get('name').endswith('.bin.gcode'):
