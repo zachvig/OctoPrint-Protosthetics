@@ -14,12 +14,18 @@ $(function() {
 		self.dryerStatus = ko.observable("Dryer OFF?");
 		self.buttonStatus = ko.observable("Ready");
 		self.lightStatus = ko.observable("Lights ON?");
+		self.brightness = ko.observable(50);
 		self.temperature = ko.observable(0);
 		self.humidity = ko.observable(0);
 
 		self.moreWords.subscribe(function(newValue) {
 			console.log(newValue);
 			OctoPrint.simpleApiCommand("protosthetics","passSerial",{"payload": newValue});
+		});
+		
+		self.brightness.subscribe(function(newValue) {
+			console.log(newValue);
+			Octoprint.simpleApiCommand("protosthetics","brightness",{"payload": newValue});
 		});
 		
 		self.onDataUpdaterPluginMessage = function(plugin, data) {

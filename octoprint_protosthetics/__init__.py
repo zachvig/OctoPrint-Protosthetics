@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-from gpiozero import Button, LED, DigitalOutputDevice
+from gpiozero import Button, PWMLED, DigitalOutputDevice
 import time, os, serial
 from .DHT20 import DFRobot_DHT20 as DHT
 
@@ -19,7 +19,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.button3 = Button(6, hold_time=3, pull_up=None, active_state=True)
     self.printer = DigitalOutputDevice(22, active_high=False, initial_value=True)
     self.dryer   = DigitalOutputDevice(23, active_high=True, initial_value=False)
-    self.led = LED(12, initial_value=True)
+    self.led = PWMLED(12, initial_value=0)
     self.flash = DigitalOutputDevice(17, active_high=False, initial_value=False)
     self.ESPreset = DigitalOutputDevice(16, active_high=False, initial_value=False)
     
@@ -41,6 +41,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.dht.begin()
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
+    self.led.pulse(1,1,3)
   
   
   def on_shutdown():
@@ -153,7 +154,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                   lightToggle=[],
                   dryerToggle=[],
                   printerToggle=[],
-                  passSerial=['payload']
+                  passSerial=['payload'],
+                  brightness=['payload']
                )
 
   def on_api_command(self,command,data):
@@ -174,6 +176,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     elif command == 'passSerial':
       self.send(data.get('payload'))
       self._logger.info('Serial command sent')
+    elif command == 'brightness':
+      self.led.value = int(data.get('payload'))/100
                
   def on_event(self,event,payload):
     if event == octoprint.events.Events.ERROR:
