@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from gpiozero import Button, LED, DigitalOutputDevice
 import time, os, serial
-from DHT20 import DFRobot_DHT20 as DHT
+import DHT20
 
 import octoprint.plugin
 
@@ -35,7 +35,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._logger.warning("No connection to LED controller.  Check raspi-config settings.")
       self.hasSerial = False
     #this will need a try/catch later
-    self.dht = DHT(0x01,0x38)  #use i2c port 1 and address 0x38
+    self.dht = DHT20.DFRobot_DHT20(0x01,0x38)  #use i2c port 1 and address 0x38
     self.dht.begin()
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
