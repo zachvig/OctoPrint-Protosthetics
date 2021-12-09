@@ -25,34 +25,30 @@ $(function() {
 				return;
 			}
 			//console.log("a message from protosthetics≈ " + data);
-			if (data.startsWith("ERROR≈")){
-				alert(data.substring(6));
-			} else if (data.startsWith("L")){
-				if (data[1]=="1") {
+			if (data.type == "ERROR"){
+				alert(data.message);
+			} else if (data.type == "INFO"){
+				console.log(data.message);
+			} else if (data.type == "L"){
+				if (data.message==1) {
 					self.lightStatus("Lights ON");
-				} else if (data[1]=="0") {
+				} else if (data.message==0) {
 					self.lightStatus("Lights OFF");
 				}
-			} else if (data.startsWith("D")){
-				if (data[1]=="1") {
+			} else if (data.type =="D"){
+				if (data.message=="1") {
 					self.dryerStatus("Dryer ON");
-				} else if (data[1]=="0") {
+				} else if (data.message=="0") {
 					self.dryerStatus("Dryer OFF");
 				}
-			} else if (data.startsWith("P")){
-				if (data[1]=="1") {
+			} else if (data.type=="P"){
+				if (data.message==1) {
 					self.printerStatus("Printer ON");
-				} else if (data[1]=="0") {
+				} else if (data.message==0) {
 					self.printerStatus("Printer OFF");
 				}
-			} else if (data.startsWith("B")) {
-				if (data[1]=="0") {
-				  self.buttonStatus("press");
-				} else if (data[1] == "1") {
-				  self.buttonStatus("release");
-				} else if (data[1] == "2") {
-			      self.buttonStatus("held");
-				}
+			} else if (data.type=="B1") {
+				self.buttonStatus(data.message);
 			} else {
 				console.log(data);
 			}

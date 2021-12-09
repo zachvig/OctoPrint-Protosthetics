@@ -73,7 +73,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     }
     
   def on_print_progress(self,storage,path,progress):
-    self._plugin_manager.send_plugin_message(self._identifier, str(progress))
+    self.sendMessage('PROGRESS',progress)
+    #self._plugin_manager.send_plugin_message(self._identifier, str(progress))
     if progress == 100:
       # don't send (use print_done event instead)
       return
@@ -83,18 +84,21 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   # Button status: B?
   # where ? is 0 for press, 1 for release, 2 for held
   def buttonRelease(self):
-    self.led.off()
-    self._plugin_manager.send_plugin_message(self._identifier, 'B1')
-    self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
+    #self.led.off()
+    self.sendMessage('B1','release')
+    #self._plugin_manager.send_plugin_message(self._identifier, 'B1')
 	
   def buttonPress(self):
-    self.led.on()
-    self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
+    #self.led.on()
+    #self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
+    self.sendMessage('B1','press')
     
   def longPress(self):
-    self._plugin_manager.send_plugin_message(self._identifier, 'B2')
-    self.led.blink(0.05,0.05,5)  #change this to be LED indicator
-    self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
+    self.sendMessage('B1','held')
+    #self._plugin_manager.send_plugin_message(self._identifier, 'B2')
+    #self.led.blink(0.05,0.05,5)  #change this to be LED indicator
+    self.send('P5')  #juggle pattern
+    #self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
     self._logger.info('~~~~~~~~~~~~~~~~~~~~~~')
     self.mode = self._printer.get_state_id()
     self._logger.info(self.mode)
@@ -132,13 +136,22 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         
         
   def reportDHT(self):
-    temp = self.dht.get_temperature()
-    hum  = self.dht.get_humidity()
-    self._plugin_manager.send_plugin_message(self._identifier, 'T%.2f~H%.2f' %(temp,hum))
+    if self.hasDHT:
+        temp = self.dht.get_temperature()
+        hum  = self.dht.get_humidity()
+        self.sendMessage('Temp',temp)
+        self.sendMessage('Hum',hum)
+        #self._plugin_manager.send_plugin_message(self._identifier, 'T%.2f~H%.2f' %(temp,hum))
+    else:
+        self.sendMessage('ERROR','No DHT detected')
         
   def send(self, data):
     if self.hasSerial:
       self.com.write((data + '\n').encode())
+      
+  def sendMessage(self, type, message):
+    payload = {"type": type, "message": message}
+    self._plugin_manager.send_plugin_message(self._identifier, payload)
         
   def get_api_commands(self):
     return dict(
@@ -153,22 +166,23 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     if command == 'lightToggle':
       self.led.toggle()
       self._logger.info('Light button pressed')
-      self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
+      self.sendMessage('L',self.led.value)
+      #self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
     elif command == 'dryerToggle':
       self.dryer.toggle()
       self._logger.info('Dryer button pressed')
-      self._plugin_manager.send_plugin_message(self._identifier, 'D%i' %self.dryer.value)
+      self.sendMessage('D',self.dryer.value)
     elif command == 'printerToggle':
       self.printer.toggle()
       self._logger.info('Printer power button pressed')
-      self._plugin_manager.send_plugin_message(self._identifier, 'P%i' %self.printer.value)
+      self.sendMessage('P',self.printer.value)
     elif command == 'passSerial':
       self.send(data.get('payload'))
       self._logger.info('Serial command sent')
                
   def on_event(self,event,payload):
     if event == octoprint.events.Events.ERROR:
-      self._plugin_manager.send_plugin_message(self._identifier, 'ERROR≈Error event reported:\n' + payload.get('error'))
+      self.sendMessage('ERROR','Error event reported:\n' + payload.get('error'))
     if event == octoprint.events.Events.PRINT_STARTED:
       self.send('C1')  #party colors
     if event == octoprint.events.Events.PRINT_DONE:
@@ -177,7 +191,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.send('P7')  #Fire
       self.send('C2')  #Lava colors
     if event == octoprint.events.Events.PRINT_FAILED:
-      self._plugin_manager.send_plugin_message(self._identifier, 'Error: Print Failed')
+      self.sendMessage('INFO','Error: Print Failed')
     if event == octoprint.events.Events.FILE_ADDED:
       self._logger.warning('FILE ADDED!!!' + payload.get('name'))
       if payload.get('name').endswith('.bin.gcode'):
