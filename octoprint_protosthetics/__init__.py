@@ -35,7 +35,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._logger.warning("No connection to LED controller.  Check raspi-config settings.")
       self.hasSerial = False
     #this will need a try/catch later
-    self.dht = DHT20(0x01,0x38)  #use i2c port 1 and address 0x38
+    self.dht = DHT(0x01,0x38)  #use i2c port 1 and address 0x38
     self.dht.begin()
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
