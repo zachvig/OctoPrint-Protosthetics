@@ -38,9 +38,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.hasSerial = False
     
     self.dht = DHT(0x01,0x38)  #use i2c port 1 and address 0x38
-    if self.dht.begin() == 0:
-      self.hasDHT = True
-    else: self.hasDHT = False
+    self.dht.begin()
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
   
@@ -95,7 +93,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
   def longPress(self):
     self.sendMessage('B1','held')
-    #self._plugin_manager.send_plugin_message(self._identifier, 'B2')
     #self.led.blink(0.05,0.05,5)  #change this to be LED indicator
     self.send('P5')  #juggle pattern
     #self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
@@ -136,14 +133,11 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         
         
   def reportDHT(self):
-    if self.hasDHT:
-        temp = self.dht.get_temperature()
-        hum  = self.dht.get_humidity()
-        self.sendMessage('Temp',temp)
-        self.sendMessage('Hum',hum)
-        #self._plugin_manager.send_plugin_message(self._identifier, 'T%.2f~H%.2f' %(temp,hum))
-    else:
-        self.sendMessage('ERROR','No DHT detected')
+    temp = self.dht.get_temperature()
+    hum  = self.dht.get_humidity()
+    self.sendMessage('Temp',temp)
+    self.sendMessage('Hum',hum)
+    #self._plugin_manager.send_plugin_message(self._identifier, 'T%.2f~H%.2f' %(temp,hum))
         
   def send(self, data):
     if self.hasSerial:
