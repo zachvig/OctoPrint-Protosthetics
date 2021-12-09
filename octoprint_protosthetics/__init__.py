@@ -19,7 +19,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.button3 = Button(6, hold_time=3, pull_up=None, active_state=True)
     self.printer = DigitalOutputDevice(22, active_high=False, initial_value=True)
     self.dryer   = DigitalOutputDevice(23, active_high=True, initial_value=False)
-    self.led = PWMLED(12, initial_value=0, frequency=1000)
+    self.led = PWMLED(12, initial_value=0, frequency=10)
     self.flash = DigitalOutputDevice(17, active_high=False, initial_value=False)
     self.ESPreset = DigitalOutputDevice(16, active_high=False, initial_value=False)
     
@@ -41,7 +41,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.dht.begin()
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
-    self.led.pulse(1,1,3)
+    self.led.pulse(1,1)
   
   
   def on_shutdown():
