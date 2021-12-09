@@ -63,7 +63,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     return [
       #dict(type="navbar"),
       dict(type="settings", custom_bindings=True),
-      dict(type="sidebar")
+      dict(type="sidebar", custom_bindings=True)
     ]
   
   def get_assets(self):
