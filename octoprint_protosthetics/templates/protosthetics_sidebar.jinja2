@@ -1,0 +1,16 @@
+<button class='btn' data-bind="click: lightButtonFunction, text: lightStatus"></button>
+<button class='btn' data-bind="click: dryerButtonFunction, text: dryerStatus"></button>
+<button class='btn' data-bind="click: printerPowerFunction, text: printerStatus"></button>
+<br>
+<span data-bind="text: buttonStatus"/>
+<br>
+<table>
+  <tr>
+    <th> Temp </th>
+	<th> Hum  </th>
+  </tr>
+  <tr>
+    <td> <span data-bind="text: temperature"/> </td>
+	<td> <span data-bind="text: humidity"/> </td>
+  </tr>
+</table>

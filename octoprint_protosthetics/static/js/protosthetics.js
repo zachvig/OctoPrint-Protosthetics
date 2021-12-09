@@ -14,6 +14,8 @@ $(function() {
 		self.dryerStatus = ko.observable("Dryer OFF?");
 		self.buttonStatus = ko.observable("Ready");
 		self.lightStatus = ko.observable("Lights ON?");
+		self.temperature = ko.observable(0);
+		self.humidity = ko.observable(0);
 
 		self.moreWords.subscribe(function(newValue) {
 			console.log(newValue);
@@ -49,6 +51,10 @@ $(function() {
 				}
 			} else if (data.type=="B1") {
 				self.buttonStatus(data.message);
+			} else if (data.type=="Temp") {
+				self.temperature(data.message);
+			} else if (data.type=="Hum") {
+				self.humidity(data.message);
 			} else {
 				console.log(data);
 			}
