@@ -172,7 +172,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   def on_api_command(self,command,data):
     self._logger.info(command+str(data))
     if command == 'lightToggle':
-      self.led.toggle()
+      if self.led.value: 
+        self.led.off()
+      else: 
+        self.led.on()
       self._logger.info('Light button pressed')
       self.sendMessage('L',self.led.value*100)
       #self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
@@ -188,7 +191,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.send(data.get('payload'))
       self._logger.info('Serial command sent')
     elif command == 'brightness':
-      self.led.value = int(data.get('payload'))/100
+      self.led.value = 10**(int(data.get('payload'))/50)/100
       self.sendMessage('L',self.led.value*100)
                
   def on_event(self,event,payload):
