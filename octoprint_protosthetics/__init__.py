@@ -39,6 +39,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.dht.begin()
       self.updateTimer = RepeatedTimer(10.0, self.reportDHT)
       self.updateTimer.start()
+      self.sendMessage('INFO',"DHT Connected")
     except OSError:
       self.sendMessage("INFO","DHT error")
       
