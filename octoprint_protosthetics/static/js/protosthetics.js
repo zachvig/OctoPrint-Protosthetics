@@ -58,10 +58,9 @@ $(function() {
 			} else if (data.type=="B1") {
 				self.buttonStatus(data.message);
 			} else if (data.type=="Temp") {
-				self.temperature(data.message);
-				console.log(data.message);
+				self.temperature(data.message.toFixed(2));
 			} else if (data.type=="Hum") {
-				self.humidity(data.message);
+				self.humidity(data.message.toFixed(2));
 			} else {
 				console.log(data);
 			}

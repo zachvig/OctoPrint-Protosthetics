@@ -38,10 +38,13 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._logger.warning("No connection to LED controller.  Check raspi-config settings.")
       self.hasSerial = False
     
-    self.dht = DHT(0x01,0x38)  #use i2c port 1 and address 0x38
-    self.dht.begin()
-    self.updateTimer = RepeatedTimer(10.0, self.reportDHT)
-    self.updateTimer.start()
+    try:
+      self.dht = DHT(0x01,0x38)  #use i2c port 1 and address 0x38
+      self.dht.begin()
+      self.updateTimer = RepeatedTimer(10.0, self.reportDHT)
+      self.updateTimer.start()
+    except OSError:
+      self.sendMessage("INFO","DHT error")
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
   
@@ -143,7 +146,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     hum  = self.dht.get_humidity()
     self.sendMessage('Temp',temp)
     self.sendMessage('Hum',hum)
-    self.sendMessage('INFO','Hello there')
+    if hum > 50:
+      self.dryer.on()
+    elif hum < 30:
+      self.dryer.off()
         
   def send(self, data):
     if self.hasSerial:
