@@ -10,6 +10,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
                        octoprint.plugin.ProgressPlugin,
                        octoprint.plugin.EventHandlerPlugin,
+                       octoprint.plugin.StartupPlugin,
                        octoprint.plugin.ShutdownPlugin,
                        octoprint.plugin.SettingsPlugin,
                        octoprint.plugin.SimpleApiPlugin):
@@ -31,13 +32,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
     self.button2.when_pressed = self.reportDHT
     
-    try:
-      self.com = serial.Serial('/dev/ttyS0', 9600)
-      self.hasSerial = True
-    except: #what exception goes here?
-      self._logger.warning("No connection to LED controller.  Check raspi-config settings.")
-      self.hasSerial = False
     
+  def on_after_startup(self):
     try:
       self.dht = DHT(0x01,0x38)  #use i2c port 1 and address 0x38
       self.dht.begin()
@@ -45,12 +41,17 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.updateTimer.start()
     except OSError:
       self.sendMessage("INFO","DHT error")
+      
+    try:
+      self.com = serial.Serial('/dev/ttyS0', 9600)
+      self.hasSerial = True
+    except: #what exception goes here?
+      self._logger.warning("No connection to LED controller.  Check raspi-config settings.")
+      self.hasSerial = False
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
   
-
-  
-  def on_shutdown():
+  def on_shutdown(self):
     self.button1.close()
     self.button2.close()
     self.button3.close()
@@ -173,7 +174,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     if command == 'lightToggle':
       self.led.toggle()
       self._logger.info('Light button pressed')
-      self.sendMessage('L',self.led.value)
+      self.sendMessage('L',self.led.value*100)
       #self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
     elif command == 'dryerToggle':
       self.dryer.toggle()
@@ -188,6 +189,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._logger.info('Serial command sent')
     elif command == 'brightness':
       self.led.value = int(data.get('payload'))/100
+      self.sendMessage('L',self.led.value*100)
                
   def on_event(self,event,payload):
     if event == octoprint.events.Events.ERROR:

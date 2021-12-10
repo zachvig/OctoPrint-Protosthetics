@@ -38,11 +38,7 @@ $(function() {
 			} else if (data.type == "INFO"){
 				console.log(data.message);
 			} else if (data.type == "L"){
-				if (data.message==1) {
-					self.lightStatus("Lights ON");
-				} else if (data.message==0) {
-					self.lightStatus("Lights OFF");
-				}
+				self.lightStatus("Lights "+ data.message +"%");
 			} else if (data.type =="D"){
 				if (data.message=="1") {
 					self.dryerStatus("Dryer ON");
