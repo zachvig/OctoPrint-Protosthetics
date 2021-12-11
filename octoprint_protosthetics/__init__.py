@@ -40,8 +40,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.updateTimer = RepeatedTimer(10.0, self.reportDHT)
       self.updateTimer.start()
       self.sendMessage('INFO',"DHT Connected")
+      self._logger.warning("DHT connection success!")
     except OSError:
       self.sendMessage("INFO","DHT error")
+      self._logger.warning("DHT connection error")
       
     try:
       self.com = serial.Serial('/dev/ttyS0', 9600)
