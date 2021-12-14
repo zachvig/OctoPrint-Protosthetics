@@ -1,4 +1,9 @@
-table, th, td {
+#proto table, #proto th, #proto td {
 	border: 1px solid black;
 	width: 100%
 }
+
+#proto tr:hover {
+	background-color: #ddd;
+}
+	
