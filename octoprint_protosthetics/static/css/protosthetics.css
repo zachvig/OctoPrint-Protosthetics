@@ -1,9 +1,13 @@
 #proto table, #proto th, #proto td {
 	border: 1px solid black;
-	width: 100%
+	width: 15ch
 }
 
 #proto tr:hover {
 	background-color: #ddd;
 }
 	
+#proto label {
+	padding: 5px;
+	background-color: LightGoldenRodYellow;
+}

@@ -3,7 +3,7 @@
 <button class='btn' data-bind="click: dryerButtonFunction, text: dryerStatus"></button>
 <button class='btn' data-bind="click: printerPowerFunction, text: printerStatus"></button>
 <br>
-<label data-bind="text: buttonStatus"></label>
+<label id="proto" data-bind="text: buttonStatus"></label>
 
 <table id="proto">
   <tr>
@@ -17,4 +17,4 @@
 </table>
 <button class='btn' data-bind="click: changeFilamentFunction">Change Filament Button</button>
 <br>
-<span data-bind="text: filamentStatus"></span>
+<label id="proto" data-bind="text: filamentStatus"></label>
