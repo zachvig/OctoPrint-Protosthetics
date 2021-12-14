@@ -80,7 +80,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   
   def get_assets(self):
     return {
-      "js": ["js/protosthetics.js"]
+      "js": ["js/protosthetics.js"],
+      "css": ["css/protosthetics.css"]
     }
     
   def on_print_progress(self,storage,path,progress):
