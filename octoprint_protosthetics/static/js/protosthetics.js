@@ -80,7 +80,7 @@ $(function() {
 		}
 		
 		self.changeFilamentFunction = function() {
-			Octoprint.simpleApiCommand("protosthetics","changeFilament");
+			OctoPrint.simpleApiCommand("protosthetics","changeFilament");
 		}
     }
 	
