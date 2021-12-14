@@ -3,9 +3,9 @@
 <button class='btn' data-bind="click: dryerButtonFunction, text: dryerStatus"></button>
 <button class='btn' data-bind="click: printerPowerFunction, text: printerStatus"></button>
 <br>
-<span data-bind="text: buttonStatus"></span>
+<label data-bind="text: buttonStatus"></label>
 
-<table>
+<table {boarder: 1px solid black;}>
   <tr>
     <th> Temperature </th>
 	<th> Humidity  </th>
@@ -15,4 +15,5 @@
 	<td data-bind="text: humidity() + '%'"> </td>
   </tr>
 </table>
-<button class='btn' data-bind="click: changeFilamentFunction, text: filamentStatus"></button>
+<button class='btn' data-bind="click: changeFilamentFunction">Change Filament Button</button>
+<span data-bind="text: filamentStatus"></span>

@@ -116,7 +116,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
     if self.mode == "PAUSED" or self.mode == "PAUSING" or self.custom_mode == "PAUSED":
       # break and continue (after filament change)
-      self.sendMessage('FIL','Extruding new filament')
       self._printer.commands("M108")
       #self._printer.resume_print()
       self._logger.info('Theoretically resuming')
@@ -125,11 +124,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         self.custom_mode = 0
         self._printer.set_temperature('tool0',self.whatItWas)
         self.led.on()
-      self.sendMessage('FIL','Change Filament Button')
+      self.sendMessage('FIL','')
     # if printing, do something different here
     elif self._printer.is_printing():
       # change filament command
-      self.sendMessage('FIL','Pausing and ejecting old filament')
       self._printer.commands("M600")
       self._logger.info('Theoretically pausing')
       self.sendMessage('FIL','Press when new filament is ready')
@@ -140,12 +138,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._logger.info(self.whatItWas)
       if temps.get('tool0').get('actual') < 200:
         if self.whatItWas < 200:
-          self.sendMessage('FIL','Warming, stand by')
           #self._printer.set_temperature('tool0',220)
           self._printer.commands("M109 S220")
         else:
           self._printer.commands("M109 S%i" %self._printer.get_current_temperatures().get('tool0').get('target'))
-      self.sendMessage('FIL','Ejecting old filament')
       self._printer.commands("M600")
       self.led.on()
       self.custom_mode = "PAUSED"
