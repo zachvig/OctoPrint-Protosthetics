@@ -17,7 +17,7 @@ $(function() {
 		self.brightness = ko.observable(50);
 		self.temperature = ko.observable(0);
 		self.humidity = ko.observable(0);
-		self.filamentStatus = ko.observable("Change Filament");
+		self.filamentStatus = ko.observable("");
 
 		self.moreWords.subscribe(function(newValue) {
 			console.log(newValue);
