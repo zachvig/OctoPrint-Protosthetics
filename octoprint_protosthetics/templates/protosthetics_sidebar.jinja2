@@ -1,5 +1,5 @@
 <button class='btn' data-bind="click: lightButtonFunction, text: lightStatus"></button>
-<input type="range" min="0" max="100" class="slider" data-bind="value: brightness">
+<!--input type="range" min="0" max="100" class="slider" data-bind="value: brightness"-->
 <button class='btn' data-bind="click: dryerButtonFunction, text: dryerStatus"></button>
 <button class='btn' data-bind="click: printerPowerFunction, text: printerStatus"></button>
 <br>
@@ -7,12 +7,12 @@
 
 <table>
   <tr>
-    <th> Temp </th>
-	<th> Hum  </th>
+    <th> Temperature </th>
+	<th> Humidity  </th>
   </tr>
   <tr>
-    <td data-bind="text: temperature"> </td>
-	<td data-bind="text: humidity"> </td>
+    <td data-bind="text: temperature() + '°'"> </td>
+	<td data-bind="text: humidity() + '%'"> </td>
   </tr>
 </table>
-Hello World!
+<button class='btn' data-bind="click: changeFilamentFunction, text: filamentStatus"></button>

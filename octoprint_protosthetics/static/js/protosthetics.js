@@ -17,6 +17,7 @@ $(function() {
 		self.brightness = ko.observable(50);
 		self.temperature = ko.observable(0);
 		self.humidity = ko.observable(0);
+		self.filamentStatus = ko.observable("Change Filament");
 
 		self.moreWords.subscribe(function(newValue) {
 			console.log(newValue);
@@ -57,6 +58,8 @@ $(function() {
 				self.temperature(data.message.toFixed(2));
 			} else if (data.type=="Hum") {
 				self.humidity(data.message.toFixed(2));
+			} else if (data.type=="FIL") {
+				self.filamentStatus(data.message);
 			} else {
 				console.log(data);
 			}
@@ -74,6 +77,10 @@ $(function() {
 		self.printerPowerFunction = function() {
 			//console.log("Other Button was pressed");
 			OctoPrint.simpleApiCommand("protosthetics","printerToggle");
+		}
+		
+		self.changeFilamentFunction = functin() {
+			Octoprint.simpleApiCommand("protosthetics","changeFilament");
 		}
     }
 	

@@ -116,6 +116,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     
     if self.mode == "PAUSED" or self.mode == "PAUSING" or self.custom_mode == "PAUSED":
       # break and continue (after filament change)
+      self.sendMessage('FIL','Extruding new filament')
       self._printer.commands("M108")
       #self._printer.resume_print()
       self._logger.info('Theoretically resuming')
@@ -124,11 +125,14 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
         self.custom_mode = 0
         self._printer.set_temperature('tool0',self.whatItWas)
         self.led.on()
+      self.sendMessage('FIL','Change Filament Button')
     # if printing, do something different here
     elif self._printer.is_printing():
       # change filament command
+      self.sendMessage('FIL','Pausing and ejecting old filament')
       self._printer.commands("M600")
       self._logger.info('Theoretically pausing')
+      self.sendMessage('FIL','Press when new filament is ready')
     elif self._printer.is_ready():
       temps = self._printer.get_current_temperatures()
       self.whatItWas = temps.get('tool0').get('target')
@@ -136,13 +140,16 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._logger.info(self.whatItWas)
       if temps.get('tool0').get('actual') < 200:
         if self.whatItWas < 200:
+          self.sendMessage('FIL','Warming, stand by')
           #self._printer.set_temperature('tool0',220)
           self._printer.commands("M109 S220")
         else:
           self._printer.commands("M109 S%i" %self._printer.get_current_temperatures().get('tool0').get('target'))
+      self.sendMessage('FIL','Ejecting old filament')
       self._printer.commands("M600")
       self.led.on()
       self.custom_mode = "PAUSED"
+      self.sendMessage('FIL','Press when new filament is ready')
         
         
   def reportDHT(self):
@@ -168,6 +175,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                   lightToggle=[],
                   dryerToggle=[],
                   printerToggle=[],
+                  changeFilament=[],
                   passSerial=['payload'],
                   brightness=['payload']
                )
@@ -190,6 +198,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.printer.toggle()
       self._logger.info('Printer power button pressed')
       self.sendMessage('P',self.printer.value)
+    elif command == 'changeFilament':
+      self.longPress()
     elif command == 'passSerial':
       self.send(data.get('payload'))
       self._logger.info('Serial command sent')
@@ -200,6 +210,17 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   def on_event(self,event,payload):
     if event == octoprint.events.Events.ERROR:
       self.sendMessage('ERROR','Error event reported:\n' + payload.get('error'))
+      if payload.get('error').startswith('Autolevel'):
+        #Printer halted. kill() called!
+        pass
+        #restart printer and the print
+        #printer off
+        #wait
+        #printer on
+        #wait
+        #connect
+        #restart print
+        #note how many times it failed
     if event == octoprint.events.Events.PRINT_STARTED:
       self.send('C1')  #party colors
     if event == octoprint.events.Events.PRINT_DONE:
@@ -208,7 +229,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.send('P7')  #Fire
       self.send('C2')  #Lava colors
     if event == octoprint.events.Events.PRINT_FAILED:
-      self.sendMessage('INFO','Error: Print Failed')
+      self.sendMessage('INFO','Error: Print Failed - ' + payload.get('reason'))
     if event == octoprint.events.Events.FILE_ADDED:
       self._logger.warning('FILE ADDED!!!' + payload.get('name'))
       if payload.get('name').endswith('.bin.gcode'):
