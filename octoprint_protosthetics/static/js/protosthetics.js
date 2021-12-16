@@ -43,7 +43,7 @@ $(function() {
 					title: 'Protosthetics?',
 					text: data.message,
 					type: 'success'
-					hide: true
+					hide: true,
 					buttons: {
 						closer: true,
 						sticker: false
