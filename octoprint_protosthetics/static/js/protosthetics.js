@@ -49,6 +49,10 @@ $(function() {
 						sticker: false
 					}
 				});
+			} else if (data.type == "FUNCTION") {
+				if (data.message=='resumeQueue') {
+					self.resumeQueue();
+				}
 			} else if (data.type == "L"){
 				self.lightStatus("Lights "+ data.message +"%");
 			} else if (data.type =="D"){

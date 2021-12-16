@@ -98,6 +98,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   def buttonRelease(self):
     #self.led.off()
     self.sendMessage('B1','release')
+    self.sendMessage('FUNCTION','resumeQueue')
     #self._plugin_manager.send_plugin_message(self._identifier, 'B1')
 	
   def buttonPress(self):
