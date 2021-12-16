@@ -42,7 +42,7 @@ $(function() {
 				new PNotify({
 					title: 'Protosthetics?',
 					text: data.message,
-					type: 'success'
+					type: 'success',
 					hide: true,
 					buttons: {
 						closer: true,
