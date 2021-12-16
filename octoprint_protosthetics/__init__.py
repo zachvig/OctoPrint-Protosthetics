@@ -102,7 +102,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
 	
   def buttonPress(self):
     #self.led.on()
-    #self._plugin_manager.send_plugin_message(self._identifier, 'L%i' %self.led.value)
+    self.sendMessage('POP','Button was pressed')
     self.sendMessage('B1','press')
     
   def longPress(self):

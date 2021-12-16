@@ -38,6 +38,17 @@ $(function() {
 				alert(data.message);
 			} else if (data.type == "INFO"){
 				console.log(data.message);
+			} else if (data.type == "POP"){
+				new PNotify({
+					title: 'Protosthetics?',
+					text: data.message,
+					type: 'success'
+					hide: true
+					buttons: {
+						closer: true,
+						sticker: false
+					}
+				});
 			} else if (data.type == "L"){
 				self.lightStatus("Lights "+ data.message +"%");
 			} else if (data.type =="D"){
@@ -60,6 +71,8 @@ $(function() {
 				self.humidity(data.message.toFixed(2));
 			} else if (data.type=="FIL") {
 				self.filamentStatus(data.message);
+			} else if (data.type=="PROGRESS") {
+				console.log(data.message + "%");
 			} else {
 				console.log(data);
 			}
@@ -81,6 +94,18 @@ $(function() {
 		
 		self.changeFilamentFunction = function() {
 			OctoPrint.simpleApiCommand("protosthetics","changeFilament");
+		}
+		
+		self.resumeQueue = function() {
+			$.ajax({
+				url: "plugin/continuousprint/resumequeue",
+				type: "GET",
+				dataType: "json",
+				headers: {
+					"X-Api-Key":UI_API_KEY,
+				},
+				data: {}
+			});
 		}
     }
 	
