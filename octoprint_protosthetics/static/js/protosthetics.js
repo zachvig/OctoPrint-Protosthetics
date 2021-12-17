@@ -55,7 +55,7 @@ $(function() {
 				}
 			} else if (data.type == "L"){
 				self.lightStatus("Lights "+ data.message +"%");
-			} else if (data.type =="D"){
+			} else if (data.type =="DRYER"){
 				if (data.message=="1") {
 					self.dryerStatus("Dryer ON");
 				} else if (data.message=="0") {

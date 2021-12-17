@@ -84,6 +84,11 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       "css": ["css/protosthetics.css"]
     }
     
+    def get_settings_defaults(self):
+      return {'hum_low':30,
+              'hum_high':40,
+             }
+    
   def on_print_progress(self,storage,path,progress):
     self.sendMessage('PROGRESS',progress)
     #self._plugin_manager.send_plugin_message(self._identifier, str(progress))
@@ -155,10 +160,12 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     hum  = self.dht.get_humidity()
     self.sendMessage('Temp',temp)
     self.sendMessage('Hum',hum)
-    if hum > 50:
+    if hum > self._settings.get(['hum_high']):
       self.dryer.on()
-    elif hum < 30:
+      self.sendMessage('DRYER',1)
+    elif hum < sefl_settings.get(['hum_low']):
       self.dryer.off()
+      self.sendMessage('DRYER',0)
         
   def send(self, data):
     if self.hasSerial:
@@ -191,7 +198,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     elif command == 'dryerToggle':
       self.dryer.toggle()
       self._logger.info('Dryer button pressed')
-      self.sendMessage('D',self.dryer.value)
+      self.sendMessage('DRYER',self.dryer.value)
     elif command == 'printerToggle':
       self.printer.toggle()
       self._logger.info('Printer power button pressed')
