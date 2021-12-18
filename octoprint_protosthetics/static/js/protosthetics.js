@@ -7,6 +7,7 @@
 $(function() {
     function ProtostheticsViewModel(parameters) {
         var self = this;
+		self.settings = parameters[0];
 		console.log("this much is working");
 		
 		self.moreWords = ko.observable("Ready");
