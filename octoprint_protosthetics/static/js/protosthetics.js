@@ -9,6 +9,10 @@ $(function() {
         var self = this;
 		self.settings = parameters[0];
 		console.log("this much is working");
+		console.log(self.settings);
+		console.log(self.settings.plugins);
+		console.log(self.settings.plugins.protosthetics);
+		console.log(self.settings.plugins.protosthetics.hum_low);
 		
 		self.moreWords = ko.observable("Ready");
 		self.printerStatus = ko.observable("Printer ON?");
