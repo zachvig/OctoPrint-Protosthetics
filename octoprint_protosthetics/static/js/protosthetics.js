@@ -18,6 +18,8 @@ $(function() {
 		self.brightness = ko.observable(50);
 		self.temperature = ko.observable(0);
 		self.humidity = ko.observable(0);
+		self.humidityLow = ko.observable();
+		self.humidityHigh = ko.observable();
 		self.filamentStatus = ko.observable("");
 
 		self.moreWords.subscribe(function(newValue) {
@@ -29,6 +31,12 @@ $(function() {
 			console.log(newValue);
 			OctoPrint.simpleApiCommand("protosthetics","brightness",{"payload": newValue});
 		});
+		
+		// called just before bindings, almost done.
+		self.onBeforeBinding = function() {
+			self.humidityLow(self.settings.settings.plugins.protosthetics.hum_low());
+			self.humidityHigh(self.settings.settings.plugins.protosthetics.hum_high());
+		}
 		
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
 			if (plugin != "protosthetics") {

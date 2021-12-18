@@ -4,23 +4,14 @@
         <div class="controls">
             <input type="text" class="input-block-level" data-bind="value: moreWords">
 		</div>
-		<label class="control-label">High and Low Humidity trigger settings</label>
-			<input type="text" class="input-block-level" data-bind="value: settings.plugins.protosthetics.hum_high">
-			<input type="text" class="input-block-level" data-bind="value: settings.plugins.protosthetics.hum_low">
+		<div class="controls">
+			<label class="control-label">High and Low Humidity trigger settings</label>
+			<input type="text" class="input-block-level" data-bind="value: humidityHigh">
+		</div>
+		<div class="controls">
+			<input type="text" class="input-block-level" data-bind="value: humidityLow">
         </div>
 		
 		<div><h6> for official use only </h6></div>
     </div>
-
-
-	<table>
-	  <tr>
-		<th> Temp </th>
-		<th> Humm  </th>
-	  </tr>
-	  <tr>
-		<td data-bind="text: temperature"> </td>
-		<td> <span data-bind="text: humidity"/> </td>
-	  </tr>
-	</table>
 </form>
