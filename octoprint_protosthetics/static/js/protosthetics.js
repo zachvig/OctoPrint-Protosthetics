@@ -18,8 +18,8 @@ $(function() {
 		self.brightness = ko.observable(50);
 		self.temperature = ko.observable(0);
 		self.humidity = ko.observable(0);
-		self.humidityLow = ko.observable();
-		self.humidityHigh = ko.observable();
+		self.humidityLow = ko.observable(self.settingsViewModel.settings.plugins.protosthetics.hum_low);
+		self.humidityHigh = ko.observable(self.settingsViewModel.settings.plugins.protosthetics.hum_high);
 		self.filamentStatus = ko.observable("");
 
 		self.moreWords.subscribe(function(newValue) {
@@ -33,10 +33,10 @@ $(function() {
 		});
 		
 		// called just before bindings, almost done.
-		self.onBeforeBinding = function() {
-			self.humidityLow(self.settings.settings.plugins.protosthetics.hum_low());
-			self.humidityHigh(self.settings.settings.plugins.protosthetics.hum_high());
-		}
+		//self.onBeforeBinding = function() {
+		//	self.humidityLow(self.settings.settings.plugins.protosthetics.hum_low());
+		//	self.humidityHigh(self.settings.settings.plugins.protosthetics.hum_high());
+		//}
 		
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
 			if (plugin != "protosthetics") {
