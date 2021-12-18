@@ -74,7 +74,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
   def get_template_configs(self):
     return [
       #dict(type="navbar"),
-      dict(type="settings", custom_bindings=True),
+      dict(type="settings"),
       dict(type="sidebar")
     ]
   

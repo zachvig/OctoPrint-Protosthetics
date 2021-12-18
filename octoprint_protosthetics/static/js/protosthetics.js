@@ -121,7 +121,7 @@ $(function() {
      */
     OCTOPRINT_VIEWMODELS.push({
         construct: ProtostheticsViewModel,
-        dependencies: [ ], // "settingsViewModel"  ],
+        dependencies: [  "settingsViewModel"  ],
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
         // Elements to bind to, e.g. #settings_plugin_helloworld, #tab_plugin_helloworld, ...
         elements: [ "#settings_plugin_protosthetics" , "#sidebar_plugin_protosthetics" ]
