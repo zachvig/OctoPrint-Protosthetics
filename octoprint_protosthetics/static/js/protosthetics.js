@@ -22,8 +22,8 @@ $(function() {
 		self.brightness = ko.observable(50);
 		self.temperature = ko.observable(0);
 		self.humidity = ko.observable(0);
-		self.humidityLow = ko.observable(self.settingsViewModel.settings.plugins.protosthetics.hum_low);
-		self.humidityHigh = ko.observable(self.settingsViewModel.settings.plugins.protosthetics.hum_high);
+		self.humidityLow = ko.observable(self.settings.settings.plugins.protosthetics.hum_low);
+		self.humidityHigh = ko.observable(self.settings.settings.plugins.protosthetics.hum_high);
 		self.filamentStatus = ko.observable("");
 
 		self.moreWords.subscribe(function(newValue) {
