@@ -186,7 +186,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                   printerToggle=[],
                   changeFilament=[],
                   passSerial=['payload'],
-                  brightness=['payload']
+                  brightness=['payload'],
+                  settings=['variable','data']
                )
 
   def on_api_command(self,command,data):
@@ -209,6 +210,9 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.sendMessage('P',self.printer.value)
     elif command == 'changeFilament':
       self.longPress()
+    elif command == 'settings':
+      self._settings.set([data.get('variable')], data.get('data'))
+      self._settings.save()
     elif command == 'passSerial':
       self.send(data.get('payload'))
       self._logger.info('Serial command sent')
