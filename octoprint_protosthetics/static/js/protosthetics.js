@@ -11,7 +11,7 @@ $(function() {
 		console.log("this much is working");
 		console.log(self.settings);
 		
-		self.moreWords = ko.observable("Ready");
+		self.passSerial = ko.observable("Ready");
 		self.printerStatus = ko.observable("Printer ON?");
 		self.dryerStatus = ko.observable("Dryer OFF?");
 		self.buttonStatus = ko.observable("Ready");
@@ -23,7 +23,7 @@ $(function() {
 		self.humidityHigh = ko.observable(); //self.settings.settings.plugins.protosthetics.hum_high);
 		self.filamentStatus = ko.observable("");
 
-		self.moreWords.subscribe(function(newValue) {
+		self.passSerial.subscribe(function(newValue) {
 			console.log(newValue);
 			OctoPrint.simpleApiCommand("protosthetics","passSerial",{"payload": newValue});
 		});
