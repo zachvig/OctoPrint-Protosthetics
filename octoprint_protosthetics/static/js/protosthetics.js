@@ -9,7 +9,7 @@ $(function() {
         var self = this;
 		self.settings = parameters[0];
 		console.log("this much is working");
-		console.log(self.settings);
+		//console.log(self.settings);
 		
 		self.passSerial = ko.observable("Ready");
 		self.printerStatus = ko.observable("Printer ON?");
