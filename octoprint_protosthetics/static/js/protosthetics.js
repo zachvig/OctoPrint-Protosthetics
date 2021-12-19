@@ -34,10 +34,10 @@ $(function() {
 		});
 		
 		// called just before bindings, almost done.
-		//self.onBeforeBinding = function() {
-		//	self.humidityLow(self.settings.settings.plugins.protosthetics.hum_low());
-		//	self.humidityHigh(self.settings.settings.plugins.protosthetics.hum_high());
-		//}
+		self.onBeforeBinding = function() {
+			self.humidityLow(self.settings.settings.plugins.protosthetics.hum_low());
+			self.humidityHigh(self.settings.settings.plugins.protosthetics.hum_high());
+		}
 		
 		self.onDataUpdaterPluginMessage = function(plugin, data) {
 			if (plugin != "protosthetics") {
