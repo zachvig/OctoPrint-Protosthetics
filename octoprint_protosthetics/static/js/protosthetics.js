@@ -31,12 +31,12 @@ $(function() {
 		self.humidityLow.subscribe(function(newValue) {
 			OctoPrint.simpleApiCommand("protosthetics","settings",{variable: "hum_low",
                                     			                   data: newValue});
-		}
+		});
 		
 		self.humidityHigh.subscribe(function(newValue) {
 			OctoPrint.simpleApiCommand("protosthetics","settings",{variable: "hum_high", 
 			                                                       data: newValue});
-		}
+		});
 		
 		self.brightness.subscribe(function(newValue) {
 			console.log(newValue);
