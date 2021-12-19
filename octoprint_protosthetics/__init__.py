@@ -88,10 +88,10 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       "css": ["css/protosthetics.css"]
     }
     
-    def get_settings_defaults(self):
-      return dict(hum_low=30,
-                  hum_high=40
-                  )
+  def get_settings_defaults(self):
+    return dict(hum_low=30,
+                hum_high=40
+                )
     
   def on_print_progress(self,storage,path,progress):
     self.sendMessage('PROGRESS',progress)
