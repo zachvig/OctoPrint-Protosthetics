@@ -53,6 +53,8 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.hasSerial = False
     self.send('P3') #plasma
     self.send('C0') #Ocean colors
+    
+    self._logger.info("Protosthetics ≈ %i %i" %(self._settings.get(["hum_low"]), self._settings.get(["hum_high"])))
   
   def on_shutdown(self):
     self.button1.close()
@@ -87,9 +89,9 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     }
     
     def get_settings_defaults(self):
-      return {'hum_low':30,
-              'hum_high':40,
-             }
+      return dict(hum_low=30,
+                  hum_high=40
+                  )
     
   def on_print_progress(self,storage,path,progress):
     self.sendMessage('PROGRESS',progress)

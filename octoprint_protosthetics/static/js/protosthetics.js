@@ -10,9 +10,6 @@ $(function() {
 		self.settings = parameters[0];
 		console.log("this much is working");
 		console.log(self.settings);
-		console.log(self.settings.plugins);
-		console.log(self.settings.plugins.protosthetics);
-		console.log(self.settings.plugins.protosthetics.hum_low);
 		
 		self.moreWords = ko.observable("Ready");
 		self.printerStatus = ko.observable("Printer ON?");
@@ -22,8 +19,8 @@ $(function() {
 		self.brightness = ko.observable(50);
 		self.temperature = ko.observable(0);
 		self.humidity = ko.observable(0);
-		self.humidityLow = ko.observable(self.settings.settings.plugins.protosthetics.hum_low);
-		self.humidityHigh = ko.observable(self.settings.settings.plugins.protosthetics.hum_high);
+		self.humidityLow = ko.observable(); //self.settings.settings.plugins.protosthetics.hum_low);
+		self.humidityHigh = ko.observable(); //self.settings.settings.plugins.protosthetics.hum_high);
 		self.filamentStatus = ko.observable("");
 
 		self.moreWords.subscribe(function(newValue) {
