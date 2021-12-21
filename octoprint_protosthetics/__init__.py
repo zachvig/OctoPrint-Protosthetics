@@ -6,6 +6,7 @@ import octoprint.util.json
 import octoprint.plugin
 from octoprint.util import RepeatedTimer
 from octoprint.events import Events, eventManager
+from octoprint.printer import StateMoniotor, Printer
 
 class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
@@ -171,7 +172,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     if hum > self._settings.get(['hum_high']):
       self.dryer.on()
       self.sendMessage('DRYER',1)
-    elif hum < sefl_settings.get(['hum_low']):
+    elif hum < self._settings.get(['hum_low']):
       self.dryer.off()
       self.sendMessage('DRYER',0)
         
@@ -279,7 +280,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
             time.sleep(0.1)
             self.ESPreset.off()
             break
-  def _setState(self, state, state_string=None, error_string=None):
+  def _setState(self, state, state_string="please bro", error_string=None):
         if state_string is None:
             state_string = self.get_state_string()
         if error_string is None:
@@ -292,7 +293,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
 
         payload = {
             "state_id": self.get_state_id(self._state),
-            "state_string": self.get_state_string(self._state),
+            "state_string": state_string,
         }
         eventManager().fire(Events.PRINTER_STATE_CHANGED, payload)
 
