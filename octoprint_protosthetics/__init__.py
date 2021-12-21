@@ -116,7 +116,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.sendMessage('B1','press')
     
   def longPress(self):
-    Printer._setState(self, self.mode, "please bro") ###########################
+    Printer._setState(self, self._printer.get_state_id(), "please bro") ###########################
     self.sendMessage('B1','held')
     #self.led.blink(0.05,0.05,5)  #change this to be LED indicator
     self.send('P5')  #juggle pattern
@@ -149,7 +149,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.whatItWas = temps.get('tool0').get('target')
       self._logger.info(temps)
       self._logger.info(self.whatItWas)
-      self._setState( self.mode, "testing")     
+      self._setState( self._printer.get_state_id(), "testing")     
       if temps.get('tool0').get('actual') < 200:
         if self.whatItWas < 200:
           #self._printer.set_temperature('tool0',220)
