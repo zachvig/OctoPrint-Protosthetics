@@ -143,7 +143,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       # change filament command
       self._printer.commands("M600")
       self._logger.info('Theoretically pausing')
-      self._setState( self.mode, "testing")          ############################################
       self.sendMessage('FIL','Press when new filament is ready')
     elif self._printer.is_ready():
       temps = self._printer.get_current_temperatures()
@@ -160,7 +159,6 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._printer.commands("M600")
       self.led.on()
       self.custom_mode = "PAUSED"
-      self._setState( self.mode, "testing")          ############################################
       self.sendMessage('FIL','Press when new filament is ready')
         
         
@@ -280,23 +278,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
             time.sleep(0.1)
             self.ESPreset.off()
             break
-  def _setState(self, state, state_string="please bro", error_string=None):
-        if state_string is None:
-            state_string = self.get_state_string()
-        if error_string is None:
-            error_string = self.get_error()
-
-        self._state = state
-        self._stateMonitor.set_state(
-            self._dict(text=state_string, flags=self._getStateFlags(), error=error_string)
-        )
-
-        payload = {
-            "state_id": self.get_state_id(self._state),
-            "state_string": state_string,
-        }
-        eventManager().fire(Events.PRINTER_STATE_CHANGED, payload)
-
+ 
   def get_update_information(self):
     return {
         "protosthetics": {
