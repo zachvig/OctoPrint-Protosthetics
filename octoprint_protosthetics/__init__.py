@@ -139,6 +139,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     # if printing, do something different here
     elif self._printer.is_printing():
       # change filament command
+      Printer._setState(self, self.mode, "please bro")
       self._printer.commands("M600")
       self._logger.info('Theoretically pausing')
       self.sendMessage('FIL','Press when new filament is ready')
