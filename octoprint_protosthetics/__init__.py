@@ -140,7 +140,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     # if printing, do something different here
     elif self._printer.is_printing():
       # change filament command
-      Printer._setState(self, self.mode, "please bro")
+      Printer._setState(self, self.mode, "please bro","None1")
       self._printer.commands("M600")
       self._logger.info('Theoretically pausing')
       self.sendMessage('FIL','Press when new filament is ready')
@@ -149,7 +149,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.whatItWas = temps.get('tool0').get('target')
       self._logger.info(temps)
       self._logger.info(self.whatItWas)
-      self._setState( self._printer.get_state_id(), "testing")     
+      self._setState( self._printer.get_state_id(), "testing","None1")     
       if temps.get('tool0').get('actual') < 200:
         if self.whatItWas < 200:
           #self._printer.set_temperature('tool0',220)
