@@ -4,7 +4,7 @@ import time, os, serial
 from .DHT20 import DFRobot_DHT20 as DHT
 import octoprint.plugin
 from octoprint.util import RepeatedTimer
-#from octoprint.printer import _setState
+from octoprint.printer.standard import _setState
 
 class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
