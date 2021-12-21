@@ -2,9 +2,10 @@ from __future__ import absolute_import, unicode_literals
 from gpiozero import Button, PWMLED, DigitalOutputDevice
 import time, os, serial
 from .DHT20 import DFRobot_DHT20 as DHT
-
+import octoprint.util.json
 import octoprint.plugin
 from octoprint.util import RepeatedTimer
+from octoprint.events import Events, eventManager
 
 class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
                        octoprint.plugin.AssetPlugin,
