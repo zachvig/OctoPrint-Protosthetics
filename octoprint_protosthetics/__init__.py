@@ -149,6 +149,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self.whatItWas = temps.get('tool0').get('target')
       self._logger.info(temps)
       self._logger.info(self.whatItWas)
+      self._setState( self.mode, "testing")     
       if temps.get('tool0').get('actual') < 200:
         if self.whatItWas < 200:
           #self._printer.set_temperature('tool0',220)
