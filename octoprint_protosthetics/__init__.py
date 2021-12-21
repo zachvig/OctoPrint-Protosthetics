@@ -2,7 +2,7 @@ from __future__ import absolute_import, unicode_literals
 from gpiozero import Button, PWMLED, DigitalOutputDevice
 import time, os, serial
 from .DHT20 import DFRobot_DHT20 as DHT
-
+from standard.py import Printer
 import octoprint.plugin
 from octoprint.util import RepeatedTimer
 
@@ -173,7 +173,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     if hum > self._settings.get(['hum_high']):
       self.dryer.on()
       self.sendMessage('DRYER',1)
-    elif hum < sefl_settings.get(['hum_low']):
+    elif hum < self._settings.get(['hum_low']):
       self.dryer.off()
       self.sendMessage('DRYER',0)
         
