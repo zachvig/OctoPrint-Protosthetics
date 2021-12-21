@@ -276,7 +276,23 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
             time.sleep(0.1)
             self.ESPreset.off()
             break
-	
+    def _setState(self, state, state_string=None, error_string=None):
+          if state_string is None:
+              state_string = self.get_state_string()
+          if error_string is None:
+              error_string = self.get_error()
+
+          self._state = state
+          self._stateMonitor.set_state(
+              self._dict(text=state_string, flags=self._getStateFlags(), error=error_string)
+          )
+
+          payload = {
+              "state_id": self.get_state_id(self._state),
+              "state_string": self.get_state_string(self._state),
+          }
+          eventManager().fire(Events.PRINTER_STATE_CHANGED, payload)
+
   def get_update_information(self):
     return {
         "protosthetics": {
