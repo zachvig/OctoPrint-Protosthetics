@@ -161,7 +161,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       self._printer.commands("M600")
       self.led.on()
       self.custom_mode = "PAUSED"
-      self._setState(self,self.mode,"Load new filament and press button to complete")
+      self.Printer._setState(self,self.mode,"Load new filament and press button to complete")
       self.sendMessage('FIL','Press when new filament is ready')
         
         
