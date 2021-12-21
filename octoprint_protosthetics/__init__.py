@@ -142,6 +142,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
       # change filament command
       self._printer.commands("M600")
       self._logger.info('Theoretically pausing')
+      self._setState( self.mode, "testing")          ############################################
       self.sendMessage('FIL','Press when new filament is ready')
     elif self._printer.is_ready():
       temps = self._printer.get_current_temperatures()
