@@ -116,6 +116,7 @@ class ProtostheticsPlugin(octoprint.plugin.TemplatePlugin,
     self.sendMessage('B1','press')
     
   def longPress(self):
+    Printer._setState(self, self.mode, "please bro") ###########################
     self.sendMessage('B1','held')
     #self.led.blink(0.05,0.05,5)  #change this to be LED indicator
     self.send('P5')  #juggle pattern
